@@ -130,7 +130,8 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
   <p style="font-size:10px;color:#666;margin-bottom:4px">Preview of upcoming events or goals</p>
   <textarea id="f-next" class="big-textarea" oninput="render()">Next month's launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
 
-  <button onclick="window.print()">Export / Print</button>
+  <button onclick="window.print()">Print / PDF</button>
+  <button onclick="downloadPage()" style="background:#222;color:gold;border:1px solid gold;margin-top:6px">Download Page</button>
 </aside>
 
 <main class="preview">
@@ -196,6 +197,16 @@ function resetBg(){
   document.getElementById('bg-img').value='';
   document.getElementById('bg-color').value='#f5f2ec';
   applyBg();
+}
+
+function downloadPage(){
+  const page = document.getElementById('page').outerHTML;
+  const styles = document.querySelector('style').outerHTML;
+  const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"/>${styles}</head><body style="background:#f5f2ec;padding:40px">${page}</body></html>`;
+  const a = document.createElement('a');
+  a.href = 'data:text/html;charset=utf-8,' + encodeURIComponent(html);
+  a.download = 'yearbook-page.html';
+  a.click();
 }
 
 function v(id){return(document.getElementById(id)||{}).value||'';}

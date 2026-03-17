@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Yearbook Builder</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:sans-serif;display:grid;grid-template-columns:300px 1fr;height:100vh;overflow:hidden;background:#222}
+.sidebar{background:#111;color:#eee;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.sidebar h3{color:gold;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-top:8px}
+label{font-size:11px;color:#999;display:block;margin-bottom:2px}
+input,textarea{width:100%;background:#1a1a1a;border:1px solid #333;border-radius:4px;padding:6px 8px;color:#eee;font-size:12px;outline:none;resize:none}
+input:focus,textarea:focus{border-color:gold}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px}
+hr{border:none;border-top:1px solid #2a2a2a;margin:4px 0}
+.big-textarea{width:100%!important;height:120px!important;min-height:120px!important;max-height:120px!important;background:#1a1a1a!important;border:1px solid #555!important;border-radius:4px;padding:10px;color:#eee!important;font-size:12px;line-height:1.6;outline:none;resize:none!important;display:block!important;box-sizing:border-box}
+button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font-size:12px;border-radius:4px;cursor:pointer;width:100%;margin-top:4px}
+.preview{overflow-y:auto;padding:24px;display:flex;justify-content:center;align-items:flex-start}
+.page{background:#f5f2ec;width:660px;min-height:1100px;padding:40px;position:relative;
+  --c-heading:#111;--c-sub:#888;--c-badge-bg:#111;--c-badge-text:#fff}
+.community-name{font-size:28px;font-weight:900;color:var(--c-heading);line-height:1}
+.sub{font-size:12px;color:var(--c-sub);margin-top:4px;font-style:italic}
+.brand-label{font-size:9px;color:var(--c-sub);text-transform:uppercase;letter-spacing:0.1em}
+.month-badge{background:var(--c-badge-bg);color:var(--c-badge-text);padding:8px 14px;font-size:10px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;border-radius:4px;white-space:nowrap}
+.desc{font-size:12px;color:#666;line-height:1.6;border-left:3px solid gold;padding-left:12px;margin-bottom:22px}
+.section-title{font-size:9px;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#b8860b;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:#ddd}
+.top3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
+.card{background:#fff;border:1px solid #e0dbd0;border-radius:8px;overflow:hidden;position:relative}
+.card.gold{border:2px solid gold}
+.rank-tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);color:#fff;font-size:20px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,0.3);line-height:1}
+.rank-tag.gold{background:rgba(160,115,0,0.92);color:#ffe066;border-color:rgba(255,215,0,0.7);font-size:12px;font-weight:900;width:72px;height:72px;flex-direction:column;gap:1px;text-align:center;line-height:1.2;padding:4px}
+.avatar{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;border-radius:6px 6px 0 0}
+.avatar.gold-ring{box-shadow:0 0 0 3px gold inset}
+.avatar-fallback{width:100%;aspect-ratio:2/3;background:#ccc;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:900;border-radius:6px 6px 0 0}
+.card-caption{padding:10px 8px 12px;text-align:center;border-top:1px solid #e0dbd0}
+.mname{font-size:12px;font-weight:900;color:#111;margin-bottom:2px}
+.mpts{font-size:10px;color:#888}
+.top2{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:70%;margin-left:auto;margin-right:auto;margin-bottom:18px}
+.card-sm{background:#fff;border:1px solid #e0dbd0;border-radius:8px;overflow:hidden;position:relative}
+.avatar-sm{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.avatar-sm-fallback{width:100%;aspect-ratio:1/1;background:#ccc;display:block}
+.card-sm-caption{padding:8px 10px 10px;border-top:1px solid #e0dbd0}
+.mname-sm{font-size:12px;font-weight:900;color:#111}
+.mpts-sm{font-size:10px;color:#888}
+.rank-pill{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);color:#fff;font-size:13px;font-weight:900;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.3);line-height:1}
+.lb{width:100%;border-collapse:collapse;margin-bottom:18px;font-size:11px}
+.lb th{font-size:8px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#888;padding:5px 6px;border-bottom:1px solid #e0dbd0;text-align:left}
+.lb td{padding:6px 6px;border-bottom:1px solid #e0dbd0;color:#111}
+.lb tr:last-child td{border:none}
+.lb-num{font-weight:900;color:#b8860b}
+.spotlight{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:18px;align-items:flex-start}
+.spotlight-placeholder{width:100%;min-height:60px;background:#f0ede5;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;margin-bottom:18px}
+.spot-circle{display:flex;flex-direction:column;align-items:center;gap:6px;width:72px}
+.spot-img{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #e0dbd0;display:block}
+.spot-img-fallback{width:64px;height:64px;border-radius:50%;background:#ccc;border:2px solid #e0dbd0}
+.spot-nameplate{font-size:10px;font-weight:900;color:#111;text-align:center;background:#fff;border:1px solid #e0dbd0;border-radius:20px;padding:2px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:72px}
+.lb-banner-wrap{width:100%;margin-bottom:18px;border-radius:8px;overflow:hidden;border:1px solid #e0dbd0}
+.lb-banner-img{width:100%;display:block;object-fit:cover}
+.lb-placeholder{width:100%;height:80px;background:#f0ede5;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;margin-bottom:18px}
+
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
+.footer-box{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:20px;min-height:120px}
+.footer-box h4{font-size:9px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:10px}
+.footer-box p{font-size:12px;line-height:1.8;color:#333}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <h3>Community Info</h3>
+  <div><label>Community Name</label><input id="f-title" placeholder="The Creator's Hub" oninput="render()"/></div>
+  <div><label>Sub Heading</label><input id="f-sub" placeholder="Build. Grow. Win." oninput="render()"/></div>
+  <div><label>Month</label><input id="f-month" placeholder="March 2025" oninput="render()"/></div>
+  <div><label>Description</label><textarea id="f-desc" rows="3" placeholder="Short community description..." oninput="render()"></textarea></div>
+
+  <h3>Page Background</h3>
+  <div>
+    <label>Background Color</label>
+    <input type="color" id="bg-color" value="#f5f2ec" oninput="applyBg()" style="width:100%;height:36px;padding:2px;cursor:pointer"/>
+  </div>
+  <div>
+    <label>— or — Background Image</label>
+    <input type="file" accept="image/*" onchange="loadBgImg(this)"/>
+  </div>
+  <div style="display:flex;gap:6px">
+    <button onclick="clearBgImg()" style="background:#333;color:#eee;font-size:11px;padding:7px">Clear Image</button>
+    <button onclick="resetBg()" style="background:#333;color:#eee;font-size:11px;padding:7px">Reset All</button>
+  </div>
+  <input id="bg-img" type="hidden"/>
+
+  <h3>Text Colors</h3>
+  <div class="row">
+    <div><label>Heading</label><input type="color" id="color-heading" value="#111111" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
+    <div><label>Sub Heading</label><input type="color" id="color-sub" value="#888888" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
+  </div>
+  <div class="row">
+    <div><label>Month Badge BG</label><input type="color" id="color-badge-bg" value="#111111" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
+    <div><label>Month Badge Text</label><input type="color" id="color-badge-text" value="#ffffff" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
+  </div>
+
+  <hr/>
+  <div><label>#1 — Name / Points</label><div class="row"><input id="m1n" placeholder="Name" oninput="render()"/><input id="m1p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m1img',this)"/><input id="m1img" type="hidden"/></div>
+  <div><label>#2 — Name / Points</label><div class="row"><input id="m2n" placeholder="Name" oninput="render()"/><input id="m2p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m2img',this)"/><input id="m2img" type="hidden"/></div>
+  <div><label>#3 — Name / Points</label><div class="row"><input id="m3n" placeholder="Name" oninput="render()"/><input id="m3p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m3img',this)"/><input id="m3img" type="hidden"/></div>
+
+  <hr/>
+  <h3>Ranks 4 & 5</h3>
+  <div><label>#4 — Name / Points</label><div class="row"><input id="m4n" placeholder="Name" oninput="render()"/><input id="m4p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m4img',this)"/><input id="m4img" type="hidden"/></div>
+  <div><label>#5 — Name / Points</label><div class="row"><input id="m5n" placeholder="Name" oninput="render()"/><input id="m5p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m5img',this)"/><input id="m5img" type="hidden"/></div>
+
+  <hr/>
+  <h3>Leaderboard Banner Image</h3>
+  <p style="font-size:10px;color:#666;margin-bottom:4px">Appears as a full-width banner after the top 5</p>
+  <input type="file" accept="image/*" onchange="loadImg('lb-banner',this)"/><input id="lb-banner" type="hidden"/>
+
+  <hr/>
+  <h3>7-Day Spotlight</h3>
+  <p style="font-size:10px;color:#666;margin-bottom:4px">Enter member names (up to 7)</p>
+  <div id="spotlight-inputs" style="display:flex;flex-direction:column;gap:6px"></div>
+
+  <hr/>
+  <h3>Special Thanks</h3>
+  <p style="font-size:10px;color:#666;margin-bottom:4px">Shoutouts, acknowledgements, contributors</p>
+  <textarea id="f-thanks" class="big-textarea" oninput="render()">A huge thank you to every member who showed up and put in the work this month. Your consistency drives this community forward. Special shoutout to our moderators for keeping things running smoothly — we see you!</textarea>
+
+  <h3>What's Next</h3>
+  <p style="font-size:10px;color:#666;margin-bottom:4px">Preview of upcoming events or goals</p>
+  <textarea id="f-next" class="big-textarea" oninput="render()">Next month's launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
+
+  <button onclick="window.print()">Export / Print</button>
+</aside>
+
+<main class="preview">
+  <div class="page" id="page"></div>
+</main>
+
+<script>
+(function(){
+  const c=document.getElementById('spotlight-inputs');
+  for(let i=1;i<=7;i++){
+    c.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px">
+      <input id="spot${i}n" placeholder="Name ${i}" oninput="render()"/>
+      <input id="spot${i}img" placeholder="Image URL" oninput="render()"/>
+    </div>`;
+  }
+})();
+
+function applyColors(){
+  const page = document.getElementById('page');
+  page.style.setProperty('--c-heading', document.getElementById('color-heading').value);
+  page.style.setProperty('--c-sub', document.getElementById('color-sub').value);
+  page.style.setProperty('--c-badge-bg', document.getElementById('color-badge-bg').value);
+  page.style.setProperty('--c-badge-text', document.getElementById('color-badge-text').value);
+}
+
+
+function loadImg(id, input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => { document.getElementById(id).value = e.target.result; render(); };
+  reader.readAsDataURL(file);
+}
+
+function loadBgImg(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('bg-img').value = e.target.result;
+    applyBg();
+  };
+  reader.readAsDataURL(file);
+}
+
+function applyBg(){
+  const page = document.getElementById('page');
+  const color = document.getElementById('bg-color').value;
+  const img = document.getElementById('bg-img').value;
+  if(img){
+    page.style.background = `url('${img}') center/cover no-repeat`;
+  } else {
+    page.style.background = color;
+  }
+}
+
+function clearBgImg(){
+  document.getElementById('bg-img').value='';
+  applyBg();
+}
+
+function resetBg(){
+  document.getElementById('bg-img').value='';
+  document.getElementById('bg-color').value='#f5f2ec';
+  applyBg();
+}
+
+function v(id){return(document.getElementById(id)||{}).value||'';}
+
+function av(url,cls){
+  return url
+    ?`<img class="avatar ${cls||''}" src="${url}"/>`
+    :`<div class="avatar-fallback">?</div>`;
+}
+function avSm(url){
+  return url?`<img class="avatar-sm" src="${url}"/>`:`<div class="avatar-sm-fallback"></div>`;
+}
+function avChip(url){
+  return url?`<img class="chip-avatar" src="${url}"/>`:`<div class="chip-avatar-fallback"></div>`;
+}
+
+function render(){
+  const title=v('f-title')||'Community Name';
+  const sub=v('f-sub');
+  const month=v('f-month')||'Month 2025';
+  const desc=v('f-desc');
+
+  let top3='';
+  [[1,true],[2,false],[3,false]].forEach(([r,gold])=>{
+    const n=v(`m${r}n`)||`Member ${r}`;
+    const p=v(`m${r}p`)||'0';
+    const img=v(`m${r}img`);
+    top3+=`<div class="card${gold?' gold':''}">
+      <div class="rank-tag${gold?' gold':''}">${gold?'🥇<span style="font-size:9px;display:block">CHAMPION</span>':'#'+r}</div>
+      ${img?`<img class="avatar${gold?' gold-ring':''}" src="${img}"/>`:`<div class="avatar-fallback">?</div>`}
+      <div class="card-caption">
+        <div class="mname">${n}</div>
+        <div class="mpts">${p} pts</div>
+      </div>
+    </div>`;
+  });
+
+  let top2='';
+  [4,5].forEach(r=>{
+    const n=v(`m${r}n`)||`Member ${r}`;
+    const p=v(`m${r}p`)||'0';
+    const img=v(`m${r}img`);
+    top2+=`<div class="card-sm">
+      <div class="rank-pill">${r}</div>
+      ${img?`<img class="avatar-sm" src="${img}"/>`:`<div class="avatar-sm-fallback"></div>`}
+      <div class="card-sm-caption">
+        <div class="mname-sm">${n}</div>
+        <div class="mpts-sm">${p} pts</div>
+      </div>
+    </div>`;
+  });
+
+  const lbBanner = v('lb-banner');
+  const lb = lbBanner
+    ? `<div class="section-title">Leaderboard Snapshot</div><div class="lb-banner-wrap"><img class="lb-banner-img" src="${lbBanner}"/></div>`
+    : `<div class="section-title">Leaderboard Snapshot</div><div class="lb-placeholder">Upload leaderboard image</div>`;
+
+  let chips='';
+  for(let i=1;i<=7;i++){
+    const name=v('spot'+i+'n');
+    const img=v('spot'+i+'img');
+    if(name||img) chips+=`<div class="spot-circle">
+      ${img?`<img class="spot-img" src="${img}"/>`:'<div class="spot-img-fallback"></div>'}
+      <div class="spot-nameplate">${name||'—'}</div>
+    </div>`;
+  }
+  const spotlight=`<div class="section-title">7-Day Spotlight</div>`+(chips?`<div class="spotlight">${chips}</div>`:'<div class="spotlight-placeholder">7-day active members will appear here</div>');
+  const thanks=v('f-thanks')||'A huge thank you to every member who showed up and put in the work this month!';
+  const next=v('f-next')||'Stay active — next month the leaderboard resets and everyone has a fresh shot at the top 5!';
+
+  document.getElementById('page').innerHTML=`
+    <div class="page-header">
+      <div>
+        <div class="brand-label">Skool Monthly Yearbook</div>
+        <div class="community-name">${title}</div>
+        ${sub?`<div class="sub">${sub}</div>`:''}
+      </div>
+      <div class="month-badge">${month}</div>
+    </div>
+    ${desc?`<div class="desc">${desc}</div>`:''}
+    <div class="section-title">Top 5 Members — 30 Day</div>
+    <div class="top3">${top3}</div>
+    <div class="top2">${top2}</div>
+    ${lb}
+    ${spotlight}
+    <div class="footer-grid">
+      <div class="footer-box"><h4>Special Thanks</h4><p>${thanks}</p></div>
+      <div class="footer-box"><h4>What's Next</h4><p>${next}</p></div>
+    </div>
+  `;
+}
+render();
+</script>
+</body>
+</html>

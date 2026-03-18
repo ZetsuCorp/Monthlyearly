@@ -24,7 +24,6 @@
 
 /* ── LAYOUT ── */
 body{font-family:sans-serif;background:#222;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-.preview{background-image:url('https://assets.skool.com/f/0f7f15bc8d494ed0b4bfb968b9a216e4/0b0afeb261f64e8c89ead2d7d09bb0a4d8d4c0427b804a00b6e3a3175547aa92.png') !important;background-size:cover !important;background-position:center !important;background-repeat:no-repeat !important}
 
 /* mobile tab bar — hidden on desktop */
 .mob-tabs{display:none;background:#111;border-bottom:1px solid #2a2a2a;flex-shrink:0}
@@ -106,6 +105,16 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 .glow-top{position:absolute;top:0;left:10%;right:10%;height:6px;background:linear-gradient(to right,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
 .glow-bottom{position:absolute;bottom:0;left:10%;right:10%;height:6px;background:linear-gradient(to right,transparent,#00c8ff,#1a8fff,#00c8ff,transparent);filter:blur(2px)}
 
+/* ── SPOTLIGHT NOTE ── */
+.spot-note{font-size:10px;color:#f90;background:#1a1200;border:1px solid #b8860b;border-radius:4px;padding:6px 8px;margin-bottom:4px;line-height:1.5}
+
+/* ── PASTE ZONE ── */
+.paste-zone{width:100%;height:52px;background:#111;border:1px dashed #444;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;cursor:pointer;transition:border-color .15s,color .15s;position:relative;outline:none;user-select:none}
+.paste-zone:focus,.paste-zone:hover{border-color:gold;color:#ccc}
+.paste-zone.has-img{border-color:#3a3;color:#5c5}
+.paste-zone.has-img::after{content:'✓ Image pasted';font-size:10px}
+.paste-zone:not(.has-img)::after{content:'Click here → Ctrl+V to paste image'}
+
 /* ── MOBILE ── */
 @media(max-width:700px){
   body{height:auto;overflow:auto}
@@ -132,7 +141,7 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
     <div class="welcome-step"><div class="step-num">2</div><div class="step-text"><strong>Set your background</strong><span>Pick a background color or upload a background image. Choose heading and badge colors to match your brand.</span></div></div>
     <div class="welcome-step"><div class="step-num">3</div><div class="step-text"><strong>Add your Top 5 members</strong><span>Enter each member's name, points, and upload their card image. Ranks 1–3 show larger than 4–5.</span></div></div>
     <div class="welcome-step"><div class="step-num">4</div><div class="step-text"><strong>Upload your leaderboard image</strong><span>Upload a screenshot of your 30-day leaderboard — appears as a full-width banner.</span></div></div>
-    <div class="welcome-step"><div class="step-num">5</div><div class="step-text"><strong>Add your 7-Day Spotlight members</strong><span>Enter up to 7 names and paste their profile image URLs.</span></div></div>
+    <div class="welcome-step"><div class="step-num">5</div><div class="step-text"><strong>Add your 7-Day Spotlight members</strong><span>Upload each member's photo using the file picker. Pasting image URLs may not work in the PDF.</span></div></div>
     <div class="welcome-step"><div class="step-num">6</div><div class="step-text"><strong>Write your Special Thanks and What's Next</strong><span>Shoutout contributors and preview what's coming next month.</span></div></div>
     <div class="welcome-step"><div class="step-num">7</div><div class="step-text"><strong>Download your PDF</strong><span>Hit Download PDF — the page renders directly to a clean, shareable PDF.</span></div></div>
     <button class="welcome-btn" onclick="document.getElementById('welcome').style.display='none'">Start Building →</button>
@@ -149,10 +158,10 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 <div class="app">
   <aside class="sidebar mob-active" id="panel-edit">
     <h3>Community Info</h3>
-    <div><label>Community Name</label><input id="f-title" placeholder="The Creator's Hub" oninput="render()"/></div>
-    <div><label>Sub Heading</label><input id="f-sub" placeholder="Build. Grow. Win." oninput="render()"/></div>
-    <div><label>Month</label><input id="f-month" placeholder="March 2025" oninput="render()"/></div>
-    <div><label>Description</label><textarea id="f-desc" rows="3" placeholder="Short community description..." oninput="render()"></textarea></div>
+    <div><label>Community Name</label><input id="f-title" placeholder="The Creator's Hub" oninput="scheduleRender()"/></div>
+    <div><label>Sub Heading</label><input id="f-sub" placeholder="Build. Grow. Win." oninput="scheduleRender()"/></div>
+    <div><label>Month</label><input id="f-month" placeholder="March 2025" oninput="scheduleRender()"/></div>
+    <div><label>Description</label><textarea id="f-desc" rows="3" placeholder="Short community description..." oninput="scheduleRender()"></textarea></div>
 
     <h3>Page Background</h3>
     <div><label>Background Color</label><input type="color" id="bg-color" value="#f5f2ec" oninput="applyBg()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
@@ -174,14 +183,14 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
     </div>
 
     <hr/>
-    <div><label>#1 — Name / Points</label><div class="row"><input id="m1n" placeholder="Name" oninput="render()"/><input id="m1p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m1img',this)"/><input id="m1img" type="hidden"/></div>
-    <div><label>#2 — Name / Points</label><div class="row"><input id="m2n" placeholder="Name" oninput="render()"/><input id="m2p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m2img',this)"/><input id="m2img" type="hidden"/></div>
-    <div><label>#3 — Name / Points</label><div class="row"><input id="m3n" placeholder="Name" oninput="render()"/><input id="m3p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m3img',this)"/><input id="m3img" type="hidden"/></div>
+    <div><label>#1 — Name / Points</label><div class="row"><input id="m1n" placeholder="Name" oninput="scheduleRender()"/><input id="m1p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m1img',this)"/><input id="m1img" type="hidden"/></div>
+    <div><label>#2 — Name / Points</label><div class="row"><input id="m2n" placeholder="Name" oninput="scheduleRender()"/><input id="m2p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m2img',this)"/><input id="m2img" type="hidden"/></div>
+    <div><label>#3 — Name / Points</label><div class="row"><input id="m3n" placeholder="Name" oninput="scheduleRender()"/><input id="m3p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m3img',this)"/><input id="m3img" type="hidden"/></div>
 
     <hr/>
     <h3>Ranks 4 &amp; 5</h3>
-    <div><label>#4 — Name / Points</label><div class="row"><input id="m4n" placeholder="Name" oninput="render()"/><input id="m4p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m4img',this)"/><input id="m4img" type="hidden"/></div>
-    <div><label>#5 — Name / Points</label><div class="row"><input id="m5n" placeholder="Name" oninput="render()"/><input id="m5p" placeholder="Pts" oninput="render()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m5img',this)"/><input id="m5img" type="hidden"/></div>
+    <div><label>#4 — Name / Points</label><div class="row"><input id="m4n" placeholder="Name" oninput="scheduleRender()"/><input id="m4p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m4img',this)"/><input id="m4img" type="hidden"/></div>
+    <div><label>#5 — Name / Points</label><div class="row"><input id="m5n" placeholder="Name" oninput="scheduleRender()"/><input id="m5p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m5img',this)"/><input id="m5img" type="hidden"/></div>
 
     <hr/>
     <h3>Leaderboard Banner Image</h3>
@@ -190,17 +199,17 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 
     <hr/>
     <h3>7-Day Spotlight</h3>
-    <p style="font-size:10px;color:#666;margin-bottom:4px">Enter member names (up to 7)</p>
-    <div id="spotlight-inputs" style="display:flex;flex-direction:column;gap:6px"></div>
+    <div class="spot-note">📋 Click the paste box then hit Ctrl+V (or ⌘V) to paste a copied image. Or use the file upload as backup.</div>
+    <div id="spotlight-inputs" style="display:flex;flex-direction:column;gap:8px"></div>
 
     <hr/>
     <h3>Special Thanks</h3>
     <p style="font-size:10px;color:#666;margin-bottom:4px">Shoutouts, acknowledgements, contributors</p>
-    <textarea id="f-thanks" class="big-textarea" oninput="render()">A huge thank you to every member who showed up and put in the work this month. Your consistency drives this community forward. Special shoutout to our moderators for keeping things running smoothly — we see you!</textarea>
+    <textarea id="f-thanks" class="big-textarea" oninput="scheduleRender()">A huge thank you to every member who showed up and put in the work this month. Your consistency drives this community forward. Special shoutout to our moderators for keeping things running smoothly — we see you!</textarea>
 
     <h3>What's Next</h3>
     <p style="font-size:10px;color:#666;margin-bottom:4px">Preview of upcoming events or goals</p>
-    <textarea id="f-next" class="big-textarea" oninput="render()">Next month we're launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
+    <textarea id="f-next" class="big-textarea" oninput="scheduleRender()">Next month we're launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
 
     <button id="dl-btn" onclick="downloadPDF()">⬇ Download PDF</button>
   </aside>
@@ -213,163 +222,244 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 </div>
 
 <script>
-/* spotlight inputs */
+/* ── DEBOUNCED RENDER ── FIX #1: stops freezing on fast typing */
+let renderTimer = null;
+function scheduleRender() {
+  clearTimeout(renderTimer);
+  renderTimer = setTimeout(render, 120);
+}
+
+/* ── SPOTLIGHT INPUTS ── paste zone + file upload fallback */
 (function(){
-  const c=document.getElementById('spotlight-inputs');
-  for(let i=1;i<=7;i++){
-    c.innerHTML+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px">
-      <input id="spot${i}n" placeholder="Name ${i}" oninput="render()"/>
-      <input id="spot${i}img" placeholder="Image URL" oninput="render()"/>
-    </div>`;
+  const c = document.getElementById('spotlight-inputs');
+  for (let i = 1; i <= 7; i++) {
+    c.innerHTML += `
+      <div style="border:1px solid #2a2a2a;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px">
+        <label style="color:#ccc;font-size:11px;font-weight:700">Spotlight #${i}</label>
+        <input id="spot${i}n" placeholder="Name" oninput="scheduleRender()" style="margin-bottom:2px"/>
+        <div id="spot${i}paste" class="paste-zone" tabindex="0" title="Click then Ctrl+V to paste image"></div>
+        <label style="font-size:10px;color:#555;margin-top:2px">or upload file</label>
+        <input type="file" accept="image/*" onchange="loadImg('spot${i}img',this,'spot${i}paste')"/>
+        <input id="spot${i}img" type="hidden"/>
+      </div>`;
+  }
+
+  // Attach paste listeners after DOM is built
+  for (let i = 1; i <= 7; i++) {
+    (function(idx){
+      const zone = document.getElementById(`spot${idx}paste`);
+      zone.addEventListener('paste', function(e){
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        for (const item of items) {
+          if (item.type.startsWith('image/')) {
+            const file = item.getAsFile();
+            const r = new FileReader();
+            r.onload = ev => {
+              document.getElementById(`spot${idx}img`).value = ev.target.result;
+              zone.classList.add('has-img');
+              render();
+            };
+            r.readAsDataURL(file);
+            break;
+          }
+        }
+        e.preventDefault();
+      });
+      // Also allow keyboard focus + paste
+      zone.addEventListener('keydown', function(e){
+        if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+          // browser will fire the paste event naturally
+        }
+      });
+    })(i);
   }
 })();
 
 /* mobile tab switching */
-function switchTab(tab){
-  const isEdit=tab==='edit';
-  document.getElementById('panel-edit').classList.toggle('mob-active',isEdit);
-  document.getElementById('panel-preview').classList.toggle('mob-active',!isEdit);
-  document.getElementById('tab-edit').classList.toggle('active',isEdit);
-  document.getElementById('tab-preview').classList.toggle('active',!isEdit);
-  if(!isEdit) scalePreview();
+function switchTab(tab) {
+  const isEdit = tab === 'edit';
+  document.getElementById('panel-edit').classList.toggle('mob-active', isEdit);
+  document.getElementById('panel-preview').classList.toggle('mob-active', !isEdit);
+  document.getElementById('tab-edit').classList.toggle('active', isEdit);
+  document.getElementById('tab-preview').classList.toggle('active', !isEdit);
+  if (!isEdit) scalePreview();
 }
 
 /* scale 660px page to fit mobile screen */
-function scalePreview(){
-  const page=document.getElementById('page');
-  const inner=document.getElementById('preview-inner');
-  if(window.innerWidth<=700){
-    const avail=window.innerWidth-16;
-    const scale=avail/660;
-    page.style.transform=`scale(${scale})`;
-    page.style.transformOrigin='top left';
-    inner.style.width=avail+'px';
-    // update wrapper height so page doesn't clip
-    inner.style.height=(page.scrollHeight*scale)+'px';
+function scalePreview() {
+  const page = document.getElementById('page');
+  const inner = document.getElementById('preview-inner');
+  if (window.innerWidth <= 700) {
+    const avail = window.innerWidth - 16;
+    const scale = avail / 660;
+    page.style.transform = `scale(${scale})`;
+    page.style.transformOrigin = 'top left';
+    inner.style.width = avail + 'px';
+    inner.style.height = (page.scrollHeight * scale) + 'px';
   } else {
-    page.style.transform='';
-    page.style.transformOrigin='';
-    inner.style.width='';
-    inner.style.height='';
+    page.style.transform = '';
+    page.style.transformOrigin = '';
+    inner.style.width = '';
+    inner.style.height = '';
   }
 }
-window.addEventListener('resize',scalePreview);
+window.addEventListener('resize', scalePreview);
 
 /* colors */
-function applyColors(){
-  const p=document.getElementById('page');
-  p.style.setProperty('--c-heading',document.getElementById('color-heading').value);
-  p.style.setProperty('--c-sub',document.getElementById('color-sub').value);
-  p.style.setProperty('--c-badge-bg',document.getElementById('color-badge-bg').value);
-  p.style.setProperty('--c-badge-text',document.getElementById('color-badge-text').value);
+function applyColors() {
+  const p = document.getElementById('page');
+  p.style.setProperty('--c-heading', document.getElementById('color-heading').value);
+  p.style.setProperty('--c-sub', document.getElementById('color-sub').value);
+  p.style.setProperty('--c-badge-bg', document.getElementById('color-badge-bg').value);
+  p.style.setProperty('--c-badge-text', document.getElementById('color-badge-text').value);
 }
 
-/* image loading */
-function loadImg(id,input){
-  const file=input.files[0]; if(!file) return;
-  const r=new FileReader();
-  r.onload=e=>{document.getElementById(id).value=e.target.result;render();};
+/* image loading — always base64 so PDF never taints */
+function loadImg(id, input, pasteZoneId) {
+  const file = input.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = e => {
+    document.getElementById(id).value = e.target.result;
+    if (pasteZoneId) {
+      const z = document.getElementById(pasteZoneId);
+      if (z) z.classList.add('has-img');
+    }
+    render();
+  };
   r.readAsDataURL(file);
 }
-function loadBgImg(input){
-  const file=input.files[0]; if(!file) return;
-  const r=new FileReader();
-  r.onload=e=>{document.getElementById('bg-img').value=e.target.result;applyBg();};
+function loadBgImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = e => { document.getElementById('bg-img').value = e.target.result; applyBg(); };
   r.readAsDataURL(file);
 }
-function applyBg(){
-  const p=document.getElementById('page');
-  const img=document.getElementById('bg-img').value;
-  p.style.background=img?`url('${img}') center/cover no-repeat`:document.getElementById('bg-color').value;
+function applyBg() {
+  const p = document.getElementById('page');
+  const img = document.getElementById('bg-img').value;
+  p.style.background = img
+    ? `url('${img}') center/cover no-repeat`
+    : document.getElementById('bg-color').value;
 }
-function clearBgImg(){document.getElementById('bg-img').value='';applyBg();}
-function resetBg(){document.getElementById('bg-img').value='';document.getElementById('bg-color').value='#f5f2ec';applyBg();}
+function clearBgImg() { document.getElementById('bg-img').value = ''; applyBg(); }
+function resetBg() { document.getElementById('bg-img').value = ''; document.getElementById('bg-color').value = '#f5f2ec'; applyBg(); }
 
-/* PDF export */
-async function downloadPDF(){
-  const btn=document.getElementById('dl-btn');
-  btn.textContent='Rendering…'; btn.disabled=true;
-  const page=document.getElementById('page');
-  const frame=page.querySelector('.page-frame');
-  if(frame) frame.style.display='none';
-  const savedTransform=page.style.transform;
-  page.style.transform='';
-  try{
-    const canvas=await html2canvas(page,{scale:2,useCORS:true,allowTaint:true,backgroundColor:null,logging:false});
-    if(frame) frame.style.display='';
-    page.style.transform=savedTransform;
-    const imgData=canvas.toDataURL('image/jpeg',0.95);
-    const {jsPDF}=window.jspdf;
-    const pdfW=210;
-    const pdfH=Math.round((canvas.height/canvas.width)*pdfW);
-    const pdf=new jsPDF({orientation:pdfH>pdfW?'portrait':'landscape',unit:'mm',format:[pdfW,pdfH]});
-    pdf.addImage(imgData,'JPEG',0,0,pdfW,pdfH);
-    const title=(document.getElementById('f-title').value||'yearbook').replace(/\s+/g,'-').toLowerCase();
-    const month=(document.getElementById('f-month').value||'page').replace(/\s+/g,'-').toLowerCase();
+/* ── PDF EXPORT ── FIX #3: always restore transform, handle all error paths */
+async function downloadPDF() {
+  const btn = document.getElementById('dl-btn');
+  btn.textContent = 'Rendering…';
+  btn.disabled = true;
+
+  const page = document.getElementById('page');
+  const frame = page.querySelector('.page-frame');
+  const savedTransform = page.style.transform;
+  const savedOrigin = page.style.transformOrigin;
+
+  // Always restore in a finally block so it never gets stuck
+  const restore = () => {
+    if (frame) frame.style.display = '';
+    page.style.transform = savedTransform;
+    page.style.transformOrigin = savedOrigin;
+    btn.textContent = '⬇ Download PDF';
+    btn.disabled = false;
+  };
+
+  try {
+    if (frame) frame.style.display = 'none';
+    // Reset transform so html2canvas captures at full 660px width
+    page.style.transform = 'none';
+    page.style.transformOrigin = 'top left';
+
+    // Small delay to let browser repaint after transform reset
+    await new Promise(res => setTimeout(res, 80));
+
+    const canvas = await html2canvas(page, {
+      scale: 2,
+      useCORS: true,
+      allowTaint: false,       // keep false — all images are base64 so no taint risk
+      backgroundColor: null,
+      logging: false,
+      imageTimeout: 15000
+    });
+
+    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+    const { jsPDF } = window.jspdf;
+    const pdfW = 210;
+    const pdfH = Math.round((canvas.height / canvas.width) * pdfW);
+    const pdf = new jsPDF({
+      orientation: pdfH > pdfW ? 'portrait' : 'landscape',
+      unit: 'mm',
+      format: [pdfW, pdfH]
+    });
+    pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+    const title = (document.getElementById('f-title').value || 'yearbook').replace(/\s+/g, '-').toLowerCase();
+    const month = (document.getElementById('f-month').value || 'page').replace(/\s+/g, '-').toLowerCase();
     pdf.save(`${title}-${month}.pdf`);
-  }catch(err){
-    if(frame) frame.style.display='';
-    page.style.transform=savedTransform;
-    alert('PDF generation failed. Ensure all images are uploaded via file picker, not external URLs.');
+    restore();
+  } catch (err) {
+    restore();
+    alert('PDF generation failed.\n\nMake sure all images were added using the file upload buttons, not external URLs.\n\nError: ' + err.message);
     console.error(err);
   }
-  btn.textContent='⬇ Download PDF'; btn.disabled=false;
 }
 
 /* helpers */
-function v(id){return(document.getElementById(id)||{}).value||'';}
+function v(id) { return (document.getElementById(id) || {}).value || ''; }
 
-/* main render */
-function render(){
-  const title=v('f-title')||'Community Name';
-  const sub=v('f-sub');
-  const month=v('f-month')||'Month 2025';
-  const desc=v('f-desc');
+/* ── MAIN RENDER ── */
+function render() {
+  const title = v('f-title') || 'Community Name';
+  const sub = v('f-sub');
+  const month = v('f-month') || 'Month 2025';
+  const desc = v('f-desc');
 
-  let top3='';
-  [[1,true],[2,false],[3,false]].forEach(([r,isGold])=>{
-    const n=v(`m${r}n`)||`Member ${r}`;
-    const p=v(`m${r}p`)||'0';
-    const img=v(`m${r}img`);
-    top3+=`<div class="card${isGold?' gold':''}">
-      <div class="rank-tag${isGold?' gold':''}">${isGold?'🥇<span style="font-size:9px;display:block">CHAMPION</span>':'#'+r}</div>
-      ${img?`<img class="avatar${isGold?' gold-ring':''}" src="${img}"/>`:`<div class="avatar-fallback">?</div>`}
+  let top3 = '';
+  [[1, true], [2, false], [3, false]].forEach(([r, isGold]) => {
+    const n = v(`m${r}n`) || `Member ${r}`;
+    const p = v(`m${r}p`) || '0';
+    const img = v(`m${r}img`);
+    top3 += `<div class="card${isGold ? ' gold' : ''}">
+      <div class="rank-tag${isGold ? ' gold' : ''}">${isGold ? '🥇<span style="font-size:9px;display:block">CHAMPION</span>' : '#' + r}</div>
+      ${img ? `<img class="avatar${isGold ? ' gold-ring' : ''}" src="${img}"/>` : `<div class="avatar-fallback">?</div>`}
       <div class="card-caption"><div class="mname">${n}</div><div class="mpts">${p} pts</div></div>
     </div>`;
   });
 
-  let top2='';
-  [4,5].forEach(r=>{
-    const n=v(`m${r}n`)||`Member ${r}`;
-    const p=v(`m${r}p`)||'0';
-    const img=v(`m${r}img`);
-    top2+=`<div class="card-sm">
+  let top2 = '';
+  [4, 5].forEach(r => {
+    const n = v(`m${r}n`) || `Member ${r}`;
+    const p = v(`m${r}p`) || '0';
+    const img = v(`m${r}img`);
+    top2 += `<div class="card-sm">
       <div class="rank-pill">${r}</div>
-      ${img?`<img class="avatar-sm" src="${img}"/>`:`<div class="avatar-sm-fallback"></div>`}
+      ${img ? `<img class="avatar-sm" src="${img}"/>` : `<div class="avatar-sm-fallback"></div>`}
       <div class="card-sm-caption"><div class="mname-sm">${n}</div><div class="mpts-sm">${p} pts</div></div>
     </div>`;
   });
 
-  const lbBanner=v('lb-banner');
-  const lb=lbBanner
-    ?`<div class="section-title">Leaderboard Snapshot</div><div class="lb-banner-wrap"><img class="lb-banner-img" src="${lbBanner}"/></div>`
-    :`<div class="section-title">Leaderboard Snapshot</div><div class="lb-placeholder">Upload leaderboard image</div>`;
+  const lbBanner = v('lb-banner');
+  const lb = lbBanner
+    ? `<div class="section-title">Leaderboard Snapshot</div><div class="lb-banner-wrap"><img class="lb-banner-img" src="${lbBanner}"/></div>`
+    : `<div class="section-title">Leaderboard Snapshot</div><div class="lb-placeholder">Upload leaderboard image</div>`;
 
-  let chips='';
-  for(let i=1;i<=7;i++){
-    const name=v('spot'+i+'n');
-    const img=v('spot'+i+'img');
-    if(name||img) chips+=`<div class="spot-circle">
-      ${img?`<img class="spot-img" src="${img}"/>`:'<div class="spot-img-fallback"></div>'}
-      <div class="spot-nameplate">${name||'—'}</div>
+  let chips = '';
+  for (let i = 1; i <= 7; i++) {
+    const name = v('spot' + i + 'n');
+    const img = v('spot' + i + 'img');
+    if (name || img) chips += `<div class="spot-circle">
+      ${img ? `<img class="spot-img" src="${img}"/>` : '<div class="spot-img-fallback"></div>'}
+      <div class="spot-nameplate">${name || '—'}</div>
     </div>`;
   }
-  const spotlight=`<div class="section-title">7-Day Spotlight</div>`+(chips?`<div class="spotlight">${chips}</div>`:'<div class="spotlight-placeholder">7-day active members will appear here</div>');
+  const spotlight = `<div class="section-title">7-Day Spotlight</div>` +
+    (chips ? `<div class="spotlight">${chips}</div>` : '<div class="spotlight-placeholder">7-day active members will appear here</div>');
 
-  const thanks=v('f-thanks')||'A huge thank you to every member!';
-  const next=v('f-next')||'Stay active — next month the leaderboard resets!';
+  const thanks = v('f-thanks') || 'A huge thank you to every member!';
+  const next = v('f-next') || 'Stay active — next month the leaderboard resets!';
 
-  const frameHTML=`<div class="page-frame">
+  const frameHTML = `<div class="page-frame">
     <div class="glow-left"></div><div class="glow-right"></div><div class="glow-top"></div><div class="glow-bottom"></div>
     <div class="corner tl"><svg viewBox="0 0 28 28" fill="none"><polyline points="28,4 4,4 4,28" stroke="#00c8ff" stroke-width="3.5" stroke-linecap="round"/></svg></div>
     <div class="corner tr"><svg viewBox="0 0 28 28" fill="none"><polyline points="28,4 4,4 4,28" stroke="#ff8c00" stroke-width="3.5" stroke-linecap="round"/></svg></div>
@@ -377,16 +467,16 @@ function render(){
     <div class="corner br"><svg viewBox="0 0 28 28" fill="none"><polyline points="28,4 4,4 4,28" stroke="#ff8c00" stroke-width="3.5" stroke-linecap="round"/></svg></div>
   </div>`;
 
-  document.getElementById('page').innerHTML=frameHTML+`
+  document.getElementById('page').innerHTML = frameHTML + `
     <div id="page-header">
       <div>
         <div class="brand-label">Skool Monthly Yearbook</div>
         <div class="community-name">${title}</div>
-        ${sub?`<div class="sub">${sub}</div>`:''}
+        ${sub ? `<div class="sub">${sub}</div>` : ''}
       </div>
       <div class="month-badge">${month}</div>
     </div>
-    ${desc?`<div class="desc">${desc}</div>`:''}
+    ${desc ? `<div class="desc">${desc}</div>` : ''}
     <div class="section-title">Top 5 Members — 30 Day</div>
     <div class="top3">${top3}</div>
     <div class="top2">${top2}</div>

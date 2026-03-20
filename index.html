@@ -8,8 +8,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-
-/* ── WELCOME OVERLAY ── */
 .welcome{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 .welcome-box{background:#1a1a1a;border:1px solid #333;border-radius:12px;max-width:560px;width:100%;padding:32px;color:#eee;position:relative;margin:auto}
 .welcome-close{position:absolute;top:14px;right:14px;background:#2a2a2a;border:1px solid #555;color:#ccc;width:34px;height:34px;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s;flex-shrink:0}
@@ -21,18 +19,11 @@
 .step-text strong{display:block;font-size:13px;color:#fff;margin-bottom:2px}
 .step-text span{font-size:12px;color:#888;line-height:1.5}
 .welcome-btn{background:gold;color:#000;border:none;padding:14px;font-weight:900;font-size:13px;border-radius:6px;cursor:pointer;width:100%;margin-top:10px;letter-spacing:0.05em}
-
-/* ── LAYOUT ── */
 body{font-family:sans-serif;background:#222;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
-
-/* mobile tab bar — hidden on desktop */
 .mob-tabs{display:none;background:#111;border-bottom:1px solid #2a2a2a;flex-shrink:0}
 .mob-tabs button{flex:1;background:none;border:none;color:#888;font-size:13px;font-weight:700;padding:13px 0;cursor:pointer;letter-spacing:0.04em;border-bottom:3px solid transparent;transition:color .15s,border-color .15s}
 .mob-tabs button.active{color:gold;border-bottom-color:gold}
-
 .app{display:grid;grid-template-columns:300px 1fr;flex:1;overflow:hidden}
-
-/* ── SIDEBAR ── */
 .sidebar{background:#111;color:#eee;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .sidebar h3{color:gold;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-top:8px}
 label{font-size:11px;color:#999;display:block;margin-bottom:2px}
@@ -42,14 +33,9 @@ input:focus,textarea:focus{border-color:gold}
 hr{border:none;border-top:1px solid #2a2a2a;margin:4px 0}
 .big-textarea{width:100%!important;height:100px!important;min-height:100px!important;max-height:100px!important;background:#1a1a1a!important;border:1px solid #555!important;border-radius:4px;padding:10px;color:#eee!important;font-size:12px;line-height:1.6;outline:none;resize:none!important;display:block!important;box-sizing:border-box}
 button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font-size:12px;border-radius:4px;cursor:pointer;width:100%;margin-top:4px}
-
-/* ── PREVIEW ── */
 .preview{overflow:auto;padding:24px;display:flex;justify-content:center;align-items:flex-start;background:#2a2a2a}
 .preview-inner{transform-origin:top center}
-
-/* ── PAGE ── */
-.page{background:#f5f2ec;width:660px;min-height:1100px;padding:40px;position:relative;
-  --c-heading:#111;--c-sub:#888;--c-badge-bg:#111;--c-badge-text:#fff}
+.page{background:#f5f2ec;width:660px;min-height:1100px;padding:40px;position:relative;--c-heading:#111;--c-sub:#888;--c-badge-bg:#111;--c-badge-text:#fff}
 #page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
 .community-name{font-size:28px;font-weight:900;color:var(--c-heading);line-height:1}
 .sub{font-size:12px;color:var(--c-sub);margin-top:4px;font-style:italic}
@@ -90,8 +76,6 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 .footer-box{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:20px;min-height:120px}
 .footer-box h4{font-size:9px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:10px}
 .footer-box p{font-size:12px;line-height:1.8;color:#333}
-
-/* frame decorations */
 .page-frame{position:absolute;inset:0;pointer-events:none;z-index:10;border-radius:4px;overflow:hidden}
 .page-frame::before{content:'';position:absolute;inset:0;border:6px solid transparent;border-image:linear-gradient(135deg,#ff8c00,#ff6000 30%,#1a8fff 70%,#00c8ff) 1;box-sizing:border-box}
 .corner{position:absolute;width:28px;height:28px}
@@ -104,18 +88,12 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 .glow-right{position:absolute;right:0;top:10%;bottom:10%;width:6px;background:linear-gradient(to bottom,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
 .glow-top{position:absolute;top:0;left:10%;right:10%;height:6px;background:linear-gradient(to right,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
 .glow-bottom{position:absolute;bottom:0;left:10%;right:10%;height:6px;background:linear-gradient(to right,transparent,#00c8ff,#1a8fff,#00c8ff,transparent);filter:blur(2px)}
-
-/* ── SPOTLIGHT NOTE ── */
 .spot-note{font-size:10px;color:#f90;background:#1a1200;border:1px solid #b8860b;border-radius:4px;padding:6px 8px;margin-bottom:4px;line-height:1.5}
-
-/* ── PASTE ZONE ── */
 .paste-zone{width:100%;height:52px;background:#111;border:1px dashed #444;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;cursor:pointer;transition:border-color .15s,color .15s;position:relative;outline:none;user-select:none}
 .paste-zone:focus,.paste-zone:hover{border-color:gold;color:#ccc}
 .paste-zone.has-img{border-color:#3a3;color:#5c5}
 .paste-zone.has-img::after{content:'✓ Image pasted';font-size:10px}
 .paste-zone:not(.has-img)::after{content:'Click here → Ctrl+V to paste image'}
-
-/* ── MOBILE ── */
 @media(max-width:700px){
   body{height:auto;overflow:auto}
   .mob-tabs{display:flex}
@@ -131,7 +109,6 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 </head>
 <body>
 
-<!-- WELCOME OVERLAY -->
 <div class="welcome" id="welcome">
   <div class="welcome-box">
     <button class="welcome-close" onclick="document.getElementById('welcome').style.display='none'" aria-label="Close">✕</button>
@@ -148,13 +125,11 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
   </div>
 </div>
 
-<!-- MOBILE TABS -->
 <div class="mob-tabs">
   <button id="tab-edit" class="active" onclick="switchTab('edit')">✏️ Edit</button>
   <button id="tab-preview" onclick="switchTab('preview')">👁 Preview</button>
 </div>
 
-<!-- APP -->
 <div class="app">
   <aside class="sidebar mob-active" id="panel-edit">
     <h3>Community Info</h3>
@@ -162,7 +137,6 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
     <div><label>Sub Heading</label><input id="f-sub" placeholder="Build. Grow. Win." oninput="scheduleRender()"/></div>
     <div><label>Month</label><input id="f-month" placeholder="March 2025" oninput="scheduleRender()"/></div>
     <div><label>Description</label><textarea id="f-desc" rows="3" placeholder="Short community description..." oninput="scheduleRender()"></textarea></div>
-
     <h3>Page Background</h3>
     <div><label>Background Color</label><input type="color" id="bg-color" value="#f5f2ec" oninput="applyBg()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
     <div><label>— or — Background Image</label><input type="file" accept="image/*" onchange="loadBgImg(this)"/></div>
@@ -171,7 +145,6 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
       <button onclick="resetBg()" style="background:#333;color:#eee;font-size:11px;padding:7px">Reset All</button>
     </div>
     <input id="bg-img" type="hidden"/>
-
     <h3>Text Colors</h3>
     <div class="row">
       <div><label>Heading</label><input type="color" id="color-heading" value="#111111" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
@@ -181,36 +154,29 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
       <div><label>Month Badge BG</label><input type="color" id="color-badge-bg" value="#111111" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
       <div><label>Month Badge Text</label><input type="color" id="color-badge-text" value="#ffffff" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
     </div>
-
     <hr/>
     <div><label>#1 — Name / Points</label><div class="row"><input id="m1n" placeholder="Name" oninput="scheduleRender()"/><input id="m1p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m1img',this)"/><input id="m1img" type="hidden"/></div>
     <div><label>#2 — Name / Points</label><div class="row"><input id="m2n" placeholder="Name" oninput="scheduleRender()"/><input id="m2p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m2img',this)"/><input id="m2img" type="hidden"/></div>
     <div><label>#3 — Name / Points</label><div class="row"><input id="m3n" placeholder="Name" oninput="scheduleRender()"/><input id="m3p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m3img',this)"/><input id="m3img" type="hidden"/></div>
-
     <hr/>
     <h3>Ranks 4 &amp; 5</h3>
     <div><label>#4 — Name / Points</label><div class="row"><input id="m4n" placeholder="Name" oninput="scheduleRender()"/><input id="m4p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m4img',this)"/><input id="m4img" type="hidden"/></div>
     <div><label>#5 — Name / Points</label><div class="row"><input id="m5n" placeholder="Name" oninput="scheduleRender()"/><input id="m5p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m5img',this)"/><input id="m5img" type="hidden"/></div>
-
     <hr/>
     <h3>Leaderboard Banner Image</h3>
     <p style="font-size:10px;color:#666;margin-bottom:4px">Appears as a full-width banner after the top 5</p>
     <input type="file" accept="image/*" onchange="loadImg('lb-banner',this)"/><input id="lb-banner" type="hidden"/>
-
     <hr/>
     <h3>7-Day Spotlight</h3>
     <div class="spot-note">📋 Click the paste box then hit Ctrl+V (or ⌘V) to paste a copied image. Or use the file upload as backup.</div>
     <div id="spotlight-inputs" style="display:flex;flex-direction:column;gap:8px"></div>
-
     <hr/>
     <h3>Special Thanks</h3>
     <p style="font-size:10px;color:#666;margin-bottom:4px">Shoutouts, acknowledgements, contributors</p>
     <textarea id="f-thanks" class="big-textarea" oninput="scheduleRender()">A huge thank you to every member who showed up and put in the work this month. Your consistency drives this community forward. Special shoutout to our moderators for keeping things running smoothly — we see you!</textarea>
-
     <h3>What's Next</h3>
     <p style="font-size:10px;color:#666;margin-bottom:4px">Preview of upcoming events or goals</p>
     <textarea id="f-next" class="big-textarea" oninput="scheduleRender()">Next month we're launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
-
     <button id="dl-btn" onclick="downloadPDF()">⬇ Download PDF</button>
   </aside>
 
@@ -222,14 +188,12 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 </div>
 
 <script>
-/* ── DEBOUNCED RENDER ── FIX #1: stops freezing on fast typing */
 let renderTimer = null;
 function scheduleRender() {
   clearTimeout(renderTimer);
   renderTimer = setTimeout(render, 120);
 }
 
-/* ── SPOTLIGHT INPUTS ── paste zone + file upload fallback */
 (function(){
   const c = document.getElementById('spotlight-inputs');
   for (let i = 1; i <= 7; i++) {
@@ -243,8 +207,6 @@ function scheduleRender() {
         <input id="spot${i}img" type="hidden"/>
       </div>`;
   }
-
-  // Attach paste listeners after DOM is built
   for (let i = 1; i <= 7; i++) {
     (function(idx){
       const zone = document.getElementById(`spot${idx}paste`);
@@ -265,17 +227,13 @@ function scheduleRender() {
         }
         e.preventDefault();
       });
-      // Also allow keyboard focus + paste
       zone.addEventListener('keydown', function(e){
-        if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
-          // browser will fire the paste event naturally
-        }
+        if ((e.ctrlKey || e.metaKey) && e.key === 'v') {}
       });
     })(i);
   }
 })();
 
-/* mobile tab switching */
 function switchTab(tab) {
   const isEdit = tab === 'edit';
   document.getElementById('panel-edit').classList.toggle('mob-active', isEdit);
@@ -285,7 +243,6 @@ function switchTab(tab) {
   if (!isEdit) scalePreview();
 }
 
-/* scale 660px page to fit mobile screen */
 function scalePreview() {
   const page = document.getElementById('page');
   const inner = document.getElementById('preview-inner');
@@ -305,7 +262,6 @@ function scalePreview() {
 }
 window.addEventListener('resize', scalePreview);
 
-/* colors */
 function applyColors() {
   const p = document.getElementById('page');
   p.style.setProperty('--c-heading', document.getElementById('color-heading').value);
@@ -314,7 +270,6 @@ function applyColors() {
   p.style.setProperty('--c-badge-text', document.getElementById('color-badge-text').value);
 }
 
-/* image loading — always base64 so PDF never taints */
 function loadImg(id, input, pasteZoneId) {
   const file = input.files[0];
   if (!file) return;
@@ -339,14 +294,12 @@ function loadBgImg(input) {
 function applyBg() {
   const p = document.getElementById('page');
   const img = document.getElementById('bg-img').value;
-  p.style.background = img
-    ? `url('${img}') center/cover no-repeat`
-    : document.getElementById('bg-color').value;
+  p.style.background = img ? `url('${img}') center/cover no-repeat` : document.getElementById('bg-color').value;
 }
 function clearBgImg() { document.getElementById('bg-img').value = ''; applyBg(); }
 function resetBg() { document.getElementById('bg-img').value = ''; document.getElementById('bg-color').value = '#f5f2ec'; applyBg(); }
 
-/* ── PDF EXPORT ── FIX #3: always restore transform, handle all error paths */
+/* ── PDF EXPORT — always letter size (8.5 x 11 in) ── */
 async function downloadPDF() {
   const btn = document.getElementById('dl-btn');
   btn.textContent = 'Rendering…';
@@ -357,7 +310,6 @@ async function downloadPDF() {
   const savedTransform = page.style.transform;
   const savedOrigin = page.style.transformOrigin;
 
-  // Always restore in a finally block so it never gets stuck
   const restore = () => {
     if (frame) frame.style.display = '';
     page.style.transform = savedTransform;
@@ -368,17 +320,14 @@ async function downloadPDF() {
 
   try {
     if (frame) frame.style.display = 'none';
-    // Reset transform so html2canvas captures at full 660px width
     page.style.transform = 'none';
     page.style.transformOrigin = 'top left';
-
-    // Small delay to let browser repaint after transform reset
     await new Promise(res => setTimeout(res, 80));
 
     const canvas = await html2canvas(page, {
       scale: 2,
       useCORS: true,
-      allowTaint: false,       // keep false — all images are base64 so no taint risk
+      allowTaint: false,
       backgroundColor: null,
       logging: false,
       imageTimeout: 15000
@@ -386,14 +335,28 @@ async function downloadPDF() {
 
     const imgData = canvas.toDataURL('image/jpeg', 0.95);
     const { jsPDF } = window.jspdf;
-    const pdfW = 210;
-    const pdfH = Math.round((canvas.height / canvas.width) * pdfW);
-    const pdf = new jsPDF({
-      orientation: pdfH > pdfW ? 'portrait' : 'landscape',
-      unit: 'mm',
-      format: [pdfW, pdfH]
-    });
-    pdf.addImage(imgData, 'JPEG', 0, 0, pdfW, pdfH);
+
+    // Fixed letter size — 215.9 x 279.4 mm — no exceptions
+    const pdfW = 215.9;
+    const pdfH = 279.4;
+    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
+
+    // Scale content to fill page, preserve aspect ratio, center if needed
+    const imgRatio = canvas.width / canvas.height;
+    const pageRatio = pdfW / pdfH;
+    let drawW, drawH, offsetX = 0, offsetY = 0;
+    if (imgRatio > pageRatio) {
+      drawW = pdfW;
+      drawH = pdfW / imgRatio;
+      offsetY = (pdfH - drawH) / 2;
+    } else {
+      drawH = pdfH;
+      drawW = pdfH * imgRatio;
+      offsetX = (pdfW - drawW) / 2;
+    }
+
+    pdf.addImage(imgData, 'JPEG', offsetX, offsetY, drawW, drawH);
+
     const title = (document.getElementById('f-title').value || 'yearbook').replace(/\s+/g, '-').toLowerCase();
     const month = (document.getElementById('f-month').value || 'page').replace(/\s+/g, '-').toLowerCase();
     pdf.save(`${title}-${month}.pdf`);
@@ -405,10 +368,8 @@ async function downloadPDF() {
   }
 }
 
-/* helpers */
 function v(id) { return (document.getElementById(id) || {}).value || ''; }
 
-/* ── MAIN RENDER ── */
 function render() {
   const title = v('f-title') || 'Community Name';
   const sub = v('f-sub');

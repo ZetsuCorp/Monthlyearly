@@ -24,6 +24,15 @@
 
 /* ── LAYOUT ── */
 body{font-family:sans-serif;background:#222;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.top-header{background:#0a0a0f;border-bottom:1px solid #2a2a2a;padding:0 20px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.top-header-title{color:gold;font-size:13px;font-weight:900;letter-spacing:0.08em;text-transform:uppercase}
+.top-header-btns{display:flex;gap:8px}
+.top-header-btns button{margin:0;padding:7px 16px;font-size:11px;font-weight:700;border-radius:4px;cursor:pointer;width:auto}
+.btn-preview{background:#1a1a2e;color:#00c8ff;border:1px solid #00c8ff}
+.btn-preview:hover{background:#00c8ff;color:#000}
+.btn-save{background:#1a1a2e;color:#ff6a00;border:1px solid #ff6a00}
+.btn-save:hover{background:#ff6a00;color:#000}
+.btn-pdf{background:gold;color:#000;border:none}
 .mob-tabs{display:none;background:#111;border-bottom:1px solid #2a2a2a;flex-shrink:0}
 .mob-tabs button{flex:1;background:none;border:none;color:#888;font-size:13px;font-weight:700;padding:13px 0;cursor:pointer;letter-spacing:0.04em;border-bottom:3px solid transparent;transition:color .15s,border-color .15s}
 .mob-tabs button.active{color:gold;border-bottom-color:gold}
@@ -68,7 +77,7 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 .mpts{font-size:10px;color:#888}
 .top2{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:70%;margin-left:auto;margin-right:auto;margin-bottom:18px}
 .card-sm{background:#fff;border:1px solid #e0dbd0;border-radius:8px;overflow:hidden;position:relative}
-.avatar-sm{width:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.avatar-sm{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;background:#ccc}
 .avatar-sm-fallback{width:100%;aspect-ratio:1/1;background:#ccc;display:block}
 .card-sm-caption{padding:8px 10px 10px;border-top:1px solid #e0dbd0}
 .mname-sm{font-size:12px;font-weight:900;color:#111}
@@ -143,6 +152,24 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
   </div>
 </div>
 
+<!-- PREVIEW MODAL -->
+<div id="preview-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:998;overflow:auto;padding:20px">
+  <div style="max-width:680px;margin:auto;position:relative">
+    <button onclick="document.getElementById('preview-modal').style.display='none'" style="position:absolute;top:-36px;right:0;background:#333;color:#eee;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;width:auto;margin:0;font-size:12px">✕ Close</button>
+    <img id="preview-img" style="width:100%;border-radius:6px;display:block"/>
+  </div>
+</div>
+
+<!-- TOP HEADER -->
+<div class="top-header">
+  <span class="top-header-title">⚡ Skool Monthly Yearbook Builder</span>
+  <div class="top-header-btns">
+    <button class="btn-preview" onclick="previewPage()">👁 Preview</button>
+    <button class="btn-save" onclick="saveLocal()">💾 Save</button>
+    <button class="btn-pdf" id="dl-btn" onclick="downloadPDF()">⬇ Download PDF</button>
+  </div>
+</div>
+
 <div class="mob-tabs">
   <button id="tab-edit" class="active" onclick="switchTab('edit')">✏️ Edit</button>
   <button id="tab-preview" onclick="switchTab('preview')">👁 Preview</button>
@@ -204,7 +231,6 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
     <p style="font-size:10px;color:#666;margin-bottom:4px">Preview of upcoming events or goals</p>
     <textarea id="f-next" class="big-textarea" oninput="scheduleRender()">Next month we're launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
 
-    <button id="dl-btn" onclick="downloadPDF()">⬇ Download PDF</button>
   </aside>
 
   <main class="preview mob-active" id="panel-preview">

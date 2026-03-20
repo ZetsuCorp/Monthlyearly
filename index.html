@@ -354,11 +354,30 @@ async function previewPage(){
 }
 
 function saveLocal(){
-  const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download=((document.getElementById('f-title').value||'yearbook').replace(/\s+/g,'-').toLowerCase())+'-builder.html';
-  a.click();
+  const fields=['f-title','f-sub','f-month','f-desc','f-thanks','f-next',
+    'm1n','m1p','m1img','m2n','m2p','m2img','m3n','m3p','m3img',
+    'm4n','m4p','m4img','m5n','m5p','m5img','lb-banner','bg-img',
+    'color-heading','color-sub','color-badge-bg','color-badge-text','bg-color'];
+  for(let i=1;i<=7;i++){fields.push('spot'+i+'n','spot'+i+'img');}
+  const data={};
+  fields.forEach(id=>{const el=document.getElementById(id);if(el)data[id]=el.value;});
+  localStorage.setItem('zyb_save',JSON.stringify(data));
+  const btn=document.querySelector('.btn-save');
+  btn.textContent='✅ Saved';
+  setTimeout(()=>{btn.textContent='💾 Save';},1500);
+}
+
+function loadSaved(){
+  const raw=localStorage.getItem('zyb_save');
+  if(!raw)return;
+  const data=JSON.parse(raw);
+  Object.keys(data).forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.value=data[id];
+  });
+  applyBg();
+  applyColors();
+  render();
 }
 
 async function downloadPDF(){
@@ -457,6 +476,7 @@ function render(){
   scalePreview();
 }
 
+loadSaved();
 render();
 </script>
 </body>

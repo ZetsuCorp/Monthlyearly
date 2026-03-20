@@ -9,7 +9,6 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 
-/* ── WELCOME OVERLAY ── */
 .welcome{position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
 .welcome-box{background:#1a1a1a;border:1px solid #333;border-radius:12px;max-width:560px;width:100%;padding:32px;color:#eee;position:relative;margin:auto}
 .welcome-close{position:absolute;top:14px;right:14px;background:#2a2a2a;border:1px solid #555;color:#ccc;width:34px;height:34px;border-radius:50%;font-size:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,color .15s;flex-shrink:0}
@@ -22,8 +21,8 @@
 .step-text span{font-size:12px;color:#888;line-height:1.5}
 .welcome-btn{background:gold;color:#000;border:none;padding:14px;font-weight:900;font-size:13px;border-radius:6px;cursor:pointer;width:100%;margin-top:10px;letter-spacing:0.05em}
 
-/* ── LAYOUT ── */
 body{font-family:sans-serif;background:#222;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
 .top-header{background:#0a0a0f;border-bottom:1px solid #2a2a2a;padding:0 20px;height:48px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
 .top-header-title{color:gold;font-size:13px;font-weight:900;letter-spacing:0.08em;text-transform:uppercase}
 .top-header-btns{display:flex;gap:8px}
@@ -33,12 +32,17 @@ body{font-family:sans-serif;background:#222;height:100dvh;display:flex;flex-dire
 .btn-save{background:#1a1a2e;color:#ff6a00;border:1px solid #ff6a00}
 .btn-save:hover{background:#ff6a00;color:#000}
 .btn-pdf{background:gold;color:#000;border:none}
+
+.preview-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:998;overflow:auto;padding:50px 20px 20px}
+.preview-modal-inner{max-width:700px;margin:auto;position:relative}
+.preview-modal-close{position:absolute;top:-38px;right:0;background:#333;color:#eee;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;width:auto;margin:0;font-size:12px;font-weight:700}
+.preview-modal img{width:100%;border-radius:6px;display:block;box-shadow:0 0 40px rgba(0,0,0,0.8)}
+
 .mob-tabs{display:none;background:#111;border-bottom:1px solid #2a2a2a;flex-shrink:0}
 .mob-tabs button{flex:1;background:none;border:none;color:#888;font-size:13px;font-weight:700;padding:13px 0;cursor:pointer;letter-spacing:0.04em;border-bottom:3px solid transparent;transition:color .15s,border-color .15s}
 .mob-tabs button.active{color:gold;border-bottom-color:gold}
 .app{display:grid;grid-template-columns:300px 1fr;flex:1;overflow:hidden}
 
-/* ── SIDEBAR ── */
 .sidebar{background:#111;color:#eee;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
 .sidebar h3{color:gold;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;margin-top:8px}
 label{font-size:11px;color:#999;display:block;margin-bottom:2px}
@@ -46,73 +50,73 @@ input,textarea{width:100%;background:#1a1a1a;border:1px solid #333;border-radius
 input:focus,textarea:focus{border-color:gold}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 hr{border:none;border-top:1px solid #2a2a2a;margin:4px 0}
-.big-textarea{width:100%!important;height:100px!important;min-height:100px!important;max-height:100px!important;background:#1a1a1a!important;border:1px solid #555!important;border-radius:4px;padding:10px;color:#eee!important;font-size:12px;line-height:1.6;outline:none;resize:none!important;display:block!important;box-sizing:border-box}
+.big-textarea{width:100%!important;height:80px!important;min-height:80px!important;max-height:80px!important;background:#1a1a1a!important;border:1px solid #555!important;border-radius:4px;padding:8px;color:#eee!important;font-size:11px;line-height:1.5;outline:none;resize:none!important;display:block!important;box-sizing:border-box}
 button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font-size:12px;border-radius:4px;cursor:pointer;width:100%;margin-top:4px}
 
-/* ── PREVIEW ── */
 .preview{overflow:auto;padding:24px;display:flex;justify-content:center;align-items:flex-start;background:#2a2a2a}
 .preview-inner{transform-origin:top center}
 
-/* ── PAGE ── */
-.page{background:#f5f2ec;width:660px;min-height:1100px;padding:40px;position:relative;
-  --c-heading:#111;--c-sub:#888;--c-badge-bg:#111;--c-badge-text:#fff}
-#page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
-.community-name{font-size:28px;font-weight:900;color:var(--c-heading);line-height:1}
-.sub{font-size:12px;color:var(--c-sub);margin-top:4px;font-style:italic}
-.brand-label{font-size:9px;color:var(--c-sub);text-transform:uppercase;letter-spacing:0.1em}
-.month-badge{background:var(--c-badge-bg);color:var(--c-badge-text);padding:8px 14px;font-size:10px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;border-radius:4px;white-space:nowrap}
-.desc{font-size:12px;color:#666;line-height:1.6;border-left:3px solid gold;padding-left:12px;margin-bottom:22px}
-.section-title{font-size:9px;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#b8860b;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+/* ── PAGE: locked 660x854 (letter ratio) ── */
+.page{background:#f5f2ec;width:660px;padding:22px 28px 18px;position:relative;--c-heading:#111;--c-sub:#888;--c-badge-bg:#111;--c-badge-text:#fff}
+
+#page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.community-name{font-size:22px;font-weight:900;color:var(--c-heading);line-height:1}
+.sub{font-size:10px;color:var(--c-sub);margin-top:3px;font-style:italic}
+.brand-label{font-size:8px;color:var(--c-sub);text-transform:uppercase;letter-spacing:0.1em}
+.month-badge{background:var(--c-badge-bg);color:var(--c-badge-text);padding:5px 10px;font-size:9px;font-weight:bold;letter-spacing:0.1em;text-transform:uppercase;border-radius:4px;white-space:nowrap}
+.desc{font-size:9px;color:#666;line-height:1.4;border-left:3px solid gold;padding-left:8px;margin-bottom:8px}
+.section-title{font-size:7px;font-weight:900;letter-spacing:0.15em;text-transform:uppercase;color:#b8860b;margin-bottom:5px;display:flex;align-items:center;gap:6px}
 .section-title::after{content:'';flex:1;height:1px;background:#ddd}
-.top3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:18px}
-.card{background:#fff;border:1px solid #e0dbd0;border-radius:8px;overflow:hidden;position:relative}
+
+.top3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}
+.card{background:#fff;border:1px solid #e0dbd0;border-radius:6px;overflow:hidden;position:relative}
 .card.gold{border:2px solid gold}
-.rank-tag{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);color:#fff;font-size:20px;font-weight:900;width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:3px solid rgba(255,255,255,0.3);line-height:1}
-.rank-tag.gold{background:rgba(160,115,0,0.92);color:#ffe066;border-color:rgba(255,215,0,0.7);font-size:12px;font-weight:900;width:72px;height:72px;flex-direction:column;gap:1px;text-align:center;line-height:1.2;padding:4px}
-.avatar{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;border-radius:6px 6px 0 0}
-.avatar.gold-ring{box-shadow:0 0 0 3px gold inset}
-.avatar-fallback{width:100%;aspect-ratio:2/3;background:#ccc;display:flex;align-items:center;justify-content:center;font-size:28px;color:#fff;font-weight:900;border-radius:6px 6px 0 0}
-.card-caption{padding:10px 8px 12px;text-align:center;border-top:1px solid #e0dbd0}
-.mname{font-size:12px;font-weight:900;color:#111;margin-bottom:2px}
-.mpts{font-size:10px;color:#888}
-.top2{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:70%;margin-left:auto;margin-right:auto;margin-bottom:18px}
-.card-sm{background:#fff;border:1px solid #e0dbd0;border-radius:8px;overflow:hidden;position:relative}
-.avatar-sm{width:100%;aspect-ratio:1/1;object-fit:contain;display:block;background:#ccc}
-.avatar-sm-fallback{width:100%;aspect-ratio:1/1;background:#ccc;display:block}
-.card-sm-caption{padding:8px 10px 10px;border-top:1px solid #e0dbd0}
-.mname-sm{font-size:12px;font-weight:900;color:#111}
-.mpts-sm{font-size:10px;color:#888}
-.rank-pill{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);color:#fff;font-size:13px;font-weight:900;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.3);line-height:1}
+.rank-tag{position:absolute;top:6px;left:6px;background:rgba(0,0,0,0.75);color:#fff;font-size:13px;font-weight:900;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.3);line-height:1}
+.rank-tag.gold{background:rgba(160,115,0,0.92);color:#ffe066;border-color:rgba(255,215,0,0.7);font-size:8px;font-weight:900;width:46px;height:46px;flex-direction:column;gap:1px;text-align:center;line-height:1.2;padding:3px}
+.avatar{width:100%;aspect-ratio:2/3;object-fit:cover;display:block;border-radius:4px 4px 0 0}
+.avatar.gold-ring{box-shadow:0 0 0 2px gold inset}
+.avatar-fallback{width:100%;aspect-ratio:2/3;background:#ccc;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff;font-weight:900;border-radius:4px 4px 0 0}
+.card-caption{padding:5px 5px 6px;text-align:center;border-top:1px solid #e0dbd0}
+.mname{font-size:9px;font-weight:900;color:#111;margin-bottom:1px}
+.mpts{font-size:8px;color:#888}
 
-/* ── SPOTLIGHT — 7 circles, 1 row, no wrap ── */
-.spotlight{display:flex;flex-wrap:nowrap;gap:8px;margin-bottom:18px;align-items:flex-start;justify-content:space-between}
-.spotlight-placeholder{width:100%;min-height:60px;background:#f0ede5;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;margin-bottom:18px}
-.spot-circle{display:flex;flex-direction:column;align-items:center;gap:4px;width:76px;flex-shrink:0}
-.spot-img{width:52px;height:52px;border-radius:50%;object-fit:cover;border:2px solid #e0dbd0;display:block}
-.spot-img-fallback{width:52px;height:52px;border-radius:50%;background:#ccc;border:2px solid #e0dbd0}
-.spot-nameplate{font-size:9px;font-weight:900;color:#111;text-align:center;background:#fff;border:1px solid #e0dbd0;border-radius:20px;padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:76px}
+.top2{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:64%;margin-left:auto;margin-right:auto;margin-bottom:6px}
+.card-sm{background:#fff;border:1px solid #e0dbd0;border-radius:6px;overflow:hidden;position:relative}
+.avatar-sm{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+.avatar-sm-fallback{width:100%;aspect-ratio:2/3;background:#ccc;display:block}
+.card-sm-caption{padding:5px 7px 6px;border-top:1px solid #e0dbd0}
+.mname-sm{font-size:9px;font-weight:900;color:#111}
+.mpts-sm{font-size:8px;color:#888}
+.rank-pill{position:absolute;top:5px;left:5px;background:rgba(0,0,0,0.75);color:#fff;font-size:10px;font-weight:900;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,0.3);line-height:1}
 
-.lb-banner-wrap{width:100%;margin-bottom:18px;border-radius:8px;overflow:hidden;border:1px solid #e0dbd0}
-.lb-banner-img{width:100%;display:block;object-fit:cover}
-.lb-placeholder{width:100%;height:80px;background:#f0ede5;border:2px dashed #ccc;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#aaa;margin-bottom:18px}
-.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:24px}
-.footer-box{background:#fff;border:1px solid #e0dbd0;border-radius:8px;padding:20px;min-height:120px}
-.footer-box h4{font-size:9px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:10px}
-.footer-box p{font-size:12px;line-height:1.8;color:#333}
+.lb-banner-wrap{width:100%;margin-bottom:6px;border-radius:5px;overflow:hidden;border:1px solid #e0dbd0}
+.lb-banner-img{width:100%;display:block;object-fit:cover;max-height:80px}
+.lb-placeholder{width:100%;height:40px;background:#f0ede5;border:2px dashed #ccc;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#aaa;margin-bottom:6px}
 
-/* frame decorations */
+.spotlight{display:flex;flex-wrap:nowrap;gap:4px;margin-bottom:6px;align-items:flex-start;justify-content:space-between}
+.spotlight-placeholder{width:100%;height:36px;background:#f0ede5;border:2px dashed #ccc;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:9px;color:#aaa;margin-bottom:6px}
+.spot-circle{display:flex;flex-direction:column;align-items:center;gap:2px;width:76px;flex-shrink:0}
+.spot-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid #e0dbd0;display:block}
+.spot-img-fallback{width:44px;height:44px;border-radius:50%;background:#ccc;border:2px solid #e0dbd0}
+.spot-nameplate{font-size:7px;font-weight:900;color:#111;text-align:center;background:#fff;border:1px solid #e0dbd0;border-radius:20px;padding:1px 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:76px}
+
+.footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.footer-box{background:#fff;border:1px solid #e0dbd0;border-radius:5px;padding:8px 10px}
+.footer-box h4{font-size:7px;font-weight:900;letter-spacing:0.1em;text-transform:uppercase;color:#888;margin-bottom:5px}
+.footer-box p{font-size:8px;line-height:1.5;color:#333}
+
 .page-frame{position:absolute;inset:0;pointer-events:none;z-index:10;border-radius:4px;overflow:hidden}
-.page-frame::before{content:'';position:absolute;inset:0;border:6px solid transparent;border-image:linear-gradient(135deg,#ff8c00,#ff6000 30%,#1a8fff 70%,#00c8ff) 1;box-sizing:border-box}
-.corner{position:absolute;width:28px;height:28px}
+.page-frame::before{content:'';position:absolute;inset:0;border:5px solid transparent;border-image:linear-gradient(135deg,#ff8c00,#ff6000 30%,#1a8fff 70%,#00c8ff) 1;box-sizing:border-box}
+.corner{position:absolute;width:20px;height:20px}
 .corner svg{width:100%;height:100%}
-.corner.tl{top:6px;left:6px}
-.corner.tr{top:6px;right:6px;transform:scaleX(-1)}
-.corner.bl{bottom:6px;left:6px;transform:scaleY(-1)}
-.corner.br{bottom:6px;right:6px;transform:scale(-1)}
-.glow-left{position:absolute;left:0;top:10%;bottom:10%;width:6px;background:linear-gradient(to bottom,transparent,#1a8fff,#00c8ff,#1a8fff,transparent);filter:blur(2px)}
-.glow-right{position:absolute;right:0;top:10%;bottom:10%;width:6px;background:linear-gradient(to bottom,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
-.glow-top{position:absolute;top:0;left:10%;right:10%;height:6px;background:linear-gradient(to right,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
-.glow-bottom{position:absolute;bottom:0;left:10%;right:10%;height:6px;background:linear-gradient(to right,transparent,#00c8ff,#1a8fff,#00c8ff,transparent);filter:blur(2px)}
+.corner.tl{top:5px;left:5px}
+.corner.tr{top:5px;right:5px;transform:scaleX(-1)}
+.corner.bl{bottom:5px;left:5px;transform:scaleY(-1)}
+.corner.br{bottom:5px;right:5px;transform:scale(-1)}
+.glow-left{position:absolute;left:0;top:10%;bottom:10%;width:5px;background:linear-gradient(to bottom,transparent,#1a8fff,#00c8ff,#1a8fff,transparent);filter:blur(2px)}
+.glow-right{position:absolute;right:0;top:10%;bottom:10%;width:5px;background:linear-gradient(to bottom,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
+.glow-top{position:absolute;top:0;left:10%;right:10%;height:5px;background:linear-gradient(to right,transparent,#ff8c00,#ff6000,#ff8c00,transparent);filter:blur(2px)}
+.glow-bottom{position:absolute;bottom:0;left:10%;right:10%;height:5px;background:linear-gradient(to right,transparent,#00c8ff,#1a8fff,#00c8ff,transparent);filter:blur(2px)}
 
 .spot-note{font-size:10px;color:#f90;background:#1a1200;border:1px solid #b8860b;border-radius:4px;padding:6px 8px;margin-bottom:4px;line-height:1.5}
 .paste-zone{width:100%;height:52px;background:#111;border:1px dashed #444;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#666;cursor:pointer;transition:border-color .15s,color .15s;position:relative;outline:none;user-select:none}
@@ -145,22 +149,20 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
     <div class="welcome-step"><div class="step-num">2</div><div class="step-text"><strong>Set your background</strong><span>Pick a background color or upload a background image. Choose heading and badge colors to match your brand.</span></div></div>
     <div class="welcome-step"><div class="step-num">3</div><div class="step-text"><strong>Add your Top 5 members</strong><span>Enter each member's name, points, and upload their card image. Ranks 1–3 show larger than 4–5.</span></div></div>
     <div class="welcome-step"><div class="step-num">4</div><div class="step-text"><strong>Upload your leaderboard image</strong><span>Upload a screenshot of your 30-day leaderboard — appears as a full-width banner.</span></div></div>
-    <div class="welcome-step"><div class="step-num">5</div><div class="step-text"><strong>Add your 7-Day Spotlight members</strong><span>Upload each member's photo using the file picker. Pasting image URLs may not work in the PDF.</span></div></div>
+    <div class="welcome-step"><div class="step-num">5</div><div class="step-text"><strong>Add your 7-Day Spotlight members</strong><span>Upload each member's photo using the file picker.</span></div></div>
     <div class="welcome-step"><div class="step-num">6</div><div class="step-text"><strong>Write your Special Thanks and What's Next</strong><span>Shoutout contributors and preview what's coming next month.</span></div></div>
-    <div class="welcome-step"><div class="step-num">7</div><div class="step-text"><strong>Download your PDF</strong><span>Hit Download PDF — the page renders directly to a clean, shareable PDF.</span></div></div>
+    <div class="welcome-step"><div class="step-num">7</div><div class="step-text"><strong>Download your PDF</strong><span>Hit Download PDF — outputs a clean letter-size PDF matching exactly what you see.</span></div></div>
     <button class="welcome-btn" onclick="document.getElementById('welcome').style.display='none'">Start Building →</button>
   </div>
 </div>
 
-<!-- PREVIEW MODAL -->
-<div id="preview-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.92);z-index:998;overflow:auto;padding:20px">
-  <div style="max-width:680px;margin:auto;position:relative">
-    <button onclick="document.getElementById('preview-modal').style.display='none'" style="position:absolute;top:-36px;right:0;background:#333;color:#eee;border:none;padding:6px 14px;border-radius:4px;cursor:pointer;width:auto;margin:0;font-size:12px">✕ Close</button>
-    <img id="preview-img" style="width:100%;border-radius:6px;display:block"/>
+<div class="preview-modal" id="preview-modal">
+  <div class="preview-modal-inner">
+    <button class="preview-modal-close" onclick="document.getElementById('preview-modal').style.display='none'">✕ Close</button>
+    <img id="preview-img" src="" alt="Page Preview"/>
   </div>
 </div>
 
-<!-- TOP HEADER -->
 <div class="top-header">
   <span class="top-header-title">⚡ Skool Monthly Yearbook Builder</span>
   <div class="top-header-btns">
@@ -181,8 +183,7 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
     <div><label>Community Name</label><input id="f-title" placeholder="The Creator's Hub" oninput="scheduleRender()"/></div>
     <div><label>Sub Heading</label><input id="f-sub" placeholder="Build. Grow. Win." oninput="scheduleRender()"/></div>
     <div><label>Month</label><input id="f-month" placeholder="March 2025" oninput="scheduleRender()"/></div>
-    <div><label>Description</label><textarea id="f-desc" rows="3" placeholder="Short community description..." oninput="scheduleRender()"></textarea></div>
-
+    <div><label>Description</label><textarea id="f-desc" rows="2" placeholder="Short community description..." oninput="scheduleRender()"></textarea></div>
     <h3>Page Background</h3>
     <div><label>Background Color</label><input type="color" id="bg-color" value="#f5f2ec" oninput="applyBg()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
     <div><label>— or — Background Image</label><input type="file" accept="image/*" onchange="loadBgImg(this)"/></div>
@@ -191,7 +192,6 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
       <button onclick="resetBg()" style="background:#333;color:#eee;font-size:11px;padding:7px">Reset All</button>
     </div>
     <input id="bg-img" type="hidden"/>
-
     <h3>Text Colors</h3>
     <div class="row">
       <div><label>Heading</label><input type="color" id="color-heading" value="#111111" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
@@ -201,36 +201,26 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
       <div><label>Month Badge BG</label><input type="color" id="color-badge-bg" value="#111111" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
       <div><label>Month Badge Text</label><input type="color" id="color-badge-text" value="#ffffff" oninput="applyColors()" style="width:100%;height:36px;padding:2px;cursor:pointer"/></div>
     </div>
-
     <hr/>
     <div><label>#1 — Name / Points</label><div class="row"><input id="m1n" placeholder="Name" oninput="scheduleRender()"/><input id="m1p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m1img',this)"/><input id="m1img" type="hidden"/></div>
     <div><label>#2 — Name / Points</label><div class="row"><input id="m2n" placeholder="Name" oninput="scheduleRender()"/><input id="m2p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m2img',this)"/><input id="m2img" type="hidden"/></div>
     <div><label>#3 — Name / Points</label><div class="row"><input id="m3n" placeholder="Name" oninput="scheduleRender()"/><input id="m3p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m3img',this)"/><input id="m3img" type="hidden"/></div>
-
     <hr/>
     <h3>Ranks 4 &amp; 5</h3>
     <div><label>#4 — Name / Points</label><div class="row"><input id="m4n" placeholder="Name" oninput="scheduleRender()"/><input id="m4p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m4img',this)"/><input id="m4img" type="hidden"/></div>
     <div><label>#5 — Name / Points</label><div class="row"><input id="m5n" placeholder="Name" oninput="scheduleRender()"/><input id="m5p" placeholder="Pts" oninput="scheduleRender()"/></div><label style="margin-top:4px">Upload Image</label><input type="file" accept="image/*" onchange="loadImg('m5img',this)"/><input id="m5img" type="hidden"/></div>
-
     <hr/>
     <h3>Leaderboard Banner Image</h3>
-    <p style="font-size:10px;color:#666;margin-bottom:4px">Appears as a full-width banner after the top 5</p>
     <input type="file" accept="image/*" onchange="loadImg('lb-banner',this)"/><input id="lb-banner" type="hidden"/>
-
     <hr/>
     <h3>7-Day Spotlight</h3>
-    <div class="spot-note">📋 Click the paste box then hit Ctrl+V (or ⌘V) to paste a copied image. Or use the file upload as backup.</div>
+    <div class="spot-note">📋 Click the paste box then Ctrl+V to paste. Or upload file.</div>
     <div id="spotlight-inputs" style="display:flex;flex-direction:column;gap:8px"></div>
-
     <hr/>
     <h3>Special Thanks</h3>
-    <p style="font-size:10px;color:#666;margin-bottom:4px">Shoutouts, acknowledgements, contributors</p>
     <textarea id="f-thanks" class="big-textarea" oninput="scheduleRender()">A huge thank you to every member who showed up and put in the work this month. Your consistency drives this community forward. Special shoutout to our moderators for keeping things running smoothly — we see you!</textarea>
-
     <h3>What's Next</h3>
-    <p style="font-size:10px;color:#666;margin-bottom:4px">Preview of upcoming events or goals</p>
     <textarea id="f-next" class="big-textarea" oninput="scheduleRender()">Next month we're launching a community challenge with bonus points up for grabs. Stay active, keep engaging, and watch for the announcement post. The leaderboard resets — everyone has a fresh shot at the top 5!</textarea>
-
   </aside>
 
   <main class="preview mob-active" id="panel-preview">
@@ -241,223 +231,195 @@ button{background:gold;color:#000;border:none;padding:10px;font-weight:bold;font
 </div>
 
 <script>
+const PAGE_W = 660;
+const PAGE_H = 854;
+
 let renderTimer = null;
-function scheduleRender() {
-  clearTimeout(renderTimer);
-  renderTimer = setTimeout(render, 120);
-}
+function scheduleRender(){clearTimeout(renderTimer);renderTimer=setTimeout(render,120)}
 
 (function(){
-  const c = document.getElementById('spotlight-inputs');
-  for (let i = 1; i <= 7; i++) {
-    c.innerHTML += `
-      <div style="border:1px solid #2a2a2a;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px">
-        <label style="color:#ccc;font-size:11px;font-weight:700">Spotlight #${i}</label>
-        <input id="spot${i}n" placeholder="Name" oninput="scheduleRender()" style="margin-bottom:2px"/>
-        <div id="spot${i}paste" class="paste-zone" tabindex="0" title="Click then Ctrl+V to paste image"></div>
-        <label style="font-size:10px;color:#555;margin-top:2px">or upload file</label>
-        <input type="file" accept="image/*" onchange="loadImg('spot${i}img',this,'spot${i}paste')"/>
-        <input id="spot${i}img" type="hidden"/>
-      </div>`;
+  const c=document.getElementById('spotlight-inputs');
+  for(let i=1;i<=7;i++){
+    c.innerHTML+=`<div style="border:1px solid #2a2a2a;border-radius:6px;padding:8px;display:flex;flex-direction:column;gap:4px">
+      <label style="color:#ccc;font-size:11px;font-weight:700">Spotlight #${i}</label>
+      <input id="spot${i}n" placeholder="Name" oninput="scheduleRender()" style="margin-bottom:2px"/>
+      <div id="spot${i}paste" class="paste-zone" tabindex="0"></div>
+      <label style="font-size:10px;color:#555;margin-top:2px">or upload file</label>
+      <input type="file" accept="image/*" onchange="loadImg('spot${i}img',this,'spot${i}paste')"/>
+      <input id="spot${i}img" type="hidden"/>
+    </div>`;
   }
-  for (let i = 1; i <= 7; i++) {
+  for(let i=1;i<=7;i++){
     (function(idx){
-      const zone = document.getElementById(`spot${idx}paste`);
-      zone.addEventListener('paste', function(e){
-        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
-        for (const item of items) {
-          if (item.type.startsWith('image/')) {
-            const file = item.getAsFile();
-            const r = new FileReader();
-            r.onload = ev => {
-              document.getElementById(`spot${idx}img`).value = ev.target.result;
-              zone.classList.add('has-img');
-              render();
-            };
-            r.readAsDataURL(file);
-            break;
+      const zone=document.getElementById(`spot${idx}paste`);
+      zone.addEventListener('paste',function(e){
+        const items=(e.clipboardData||e.originalEvent.clipboardData).items;
+        for(const item of items){
+          if(item.type.startsWith('image/')){
+            const r=new FileReader();
+            r.onload=ev=>{document.getElementById(`spot${idx}img`).value=ev.target.result;zone.classList.add('has-img');render()};
+            r.readAsDataURL(item.getAsFile());break;
           }
         }
         e.preventDefault();
-      });
-      zone.addEventListener('keydown', function(e){
-        if ((e.ctrlKey || e.metaKey) && e.key === 'v') {}
       });
     })(i);
   }
 })();
 
-function switchTab(tab) {
-  const isEdit = tab === 'edit';
-  document.getElementById('panel-edit').classList.toggle('mob-active', isEdit);
-  document.getElementById('panel-preview').classList.toggle('mob-active', !isEdit);
-  document.getElementById('tab-edit').classList.toggle('active', isEdit);
-  document.getElementById('tab-preview').classList.toggle('active', !isEdit);
-  if (!isEdit) scalePreview();
+function switchTab(tab){
+  const isEdit=tab==='edit';
+  document.getElementById('panel-edit').classList.toggle('mob-active',isEdit);
+  document.getElementById('panel-preview').classList.toggle('mob-active',!isEdit);
+  document.getElementById('tab-edit').classList.toggle('active',isEdit);
+  document.getElementById('tab-preview').classList.toggle('active',!isEdit);
+  if(!isEdit)scalePreview();
 }
 
-function scalePreview() {
-  const page = document.getElementById('page');
-  const inner = document.getElementById('preview-inner');
-  if (window.innerWidth <= 700) {
-    const avail = window.innerWidth - 16;
-    const scale = avail / 660;
-    page.style.transform = `scale(${scale})`;
-    page.style.transformOrigin = 'top left';
-    inner.style.width = avail + 'px';
-    inner.style.height = (page.scrollHeight * scale) + 'px';
-  } else {
-    page.style.transform = '';
-    page.style.transformOrigin = '';
-    inner.style.width = '';
-    inner.style.height = '';
+function scalePreview(){
+  const page=document.getElementById('page');
+  const inner=document.getElementById('preview-inner');
+  if(window.innerWidth<=700){
+    const avail=window.innerWidth-16;
+    const scale=avail/PAGE_W;
+    page.style.transform=`scale(${scale})`;
+    page.style.transformOrigin='top left';
+    inner.style.width=avail+'px';
+    inner.style.height=(PAGE_H*scale)+'px';
+  }else{
+    page.style.transform='';page.style.transformOrigin='';
+    inner.style.width='';inner.style.height='';
   }
 }
-window.addEventListener('resize', scalePreview);
+window.addEventListener('resize',scalePreview);
 
-function applyColors() {
-  const p = document.getElementById('page');
-  p.style.setProperty('--c-heading', document.getElementById('color-heading').value);
-  p.style.setProperty('--c-sub', document.getElementById('color-sub').value);
-  p.style.setProperty('--c-badge-bg', document.getElementById('color-badge-bg').value);
-  p.style.setProperty('--c-badge-text', document.getElementById('color-badge-text').value);
+function applyColors(){
+  const p=document.getElementById('page');
+  p.style.setProperty('--c-heading',document.getElementById('color-heading').value);
+  p.style.setProperty('--c-sub',document.getElementById('color-sub').value);
+  p.style.setProperty('--c-badge-bg',document.getElementById('color-badge-bg').value);
+  p.style.setProperty('--c-badge-text',document.getElementById('color-badge-text').value);
 }
 
-function loadImg(id, input, pasteZoneId) {
-  const file = input.files[0];
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = e => {
-    document.getElementById(id).value = e.target.result;
-    if (pasteZoneId) {
-      const z = document.getElementById(pasteZoneId);
-      if (z) z.classList.add('has-img');
-    }
+function loadImg(id,input,pasteZoneId){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    document.getElementById(id).value=e.target.result;
+    if(pasteZoneId){const z=document.getElementById(pasteZoneId);if(z)z.classList.add('has-img');}
     render();
   };
   r.readAsDataURL(file);
 }
-function loadBgImg(input) {
-  const file = input.files[0];
-  if (!file) return;
-  const r = new FileReader();
-  r.onload = e => { document.getElementById('bg-img').value = e.target.result; applyBg(); };
+function loadBgImg(input){
+  const file=input.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=e=>{document.getElementById('bg-img').value=e.target.result;applyBg();};
   r.readAsDataURL(file);
 }
-function applyBg() {
-  const p = document.getElementById('page');
-  const img = document.getElementById('bg-img').value;
-  p.style.background = img ? `url('${img}') center/cover no-repeat` : document.getElementById('bg-color').value;
+function applyBg(){
+  const p=document.getElementById('page');
+  const img=document.getElementById('bg-img').value;
+  p.style.background=img?`url('${img}') center/cover no-repeat`:document.getElementById('bg-color').value;
 }
-function clearBgImg() { document.getElementById('bg-img').value = ''; applyBg(); }
-function resetBg() { document.getElementById('bg-img').value = ''; document.getElementById('bg-color').value = '#f5f2ec'; applyBg(); }
+function clearBgImg(){document.getElementById('bg-img').value='';applyBg();}
+function resetBg(){document.getElementById('bg-img').value='';document.getElementById('bg-color').value='#f5f2ec';applyBg();}
 
-async function downloadPDF() {
-  const btn = document.getElementById('dl-btn');
-  btn.textContent = 'Rendering…';
-  btn.disabled = true;
+/* ── CAPTURE: always 660x854 ── */
+async function capturePage(){
+  const page=document.getElementById('page');
+  const frame=page.querySelector('.page-frame');
+  const st=page.style.transform,so=page.style.transformOrigin;
+  if(frame)frame.style.display='none';
+  page.style.transform='none';page.style.transformOrigin='top left';
+  await new Promise(res=>setTimeout(res,80));
+  const canvas=await html2canvas(page,{scale:2,useCORS:true,allowTaint:false,backgroundColor:null,logging:false,imageTimeout:15000});
+  if(frame)frame.style.display='';
+  page.style.transform=st;page.style.transformOrigin=so;
+  return canvas;
+}
 
-  const page = document.getElementById('page');
-  const frame = page.querySelector('.page-frame');
-  const savedTransform = page.style.transform;
-  const savedOrigin = page.style.transformOrigin;
+async function previewPage(){
+  const btn=document.querySelector('.btn-preview');
+  btn.textContent='⏳ Rendering…';btn.disabled=true;
+  try{
+    const canvas=await capturePage();
+    document.getElementById('preview-img').src=canvas.toDataURL('image/jpeg',0.92);
+    document.getElementById('preview-modal').style.display='block';
+  }catch(e){alert('Preview failed: '+e.message);}
+  btn.textContent='👁 Preview';btn.disabled=false;
+}
 
-  const restore = () => {
-    if (frame) frame.style.display = '';
-    page.style.transform = savedTransform;
-    page.style.transformOrigin = savedOrigin;
-    btn.textContent = '⬇ Download PDF';
-    btn.disabled = false;
-  };
+function saveLocal(){
+  const blob=new Blob([document.documentElement.outerHTML],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=((document.getElementById('f-title').value||'yearbook').replace(/\s+/g,'-').toLowerCase())+'-builder.html';
+  a.click();
+}
 
-  try {
-    if (frame) frame.style.display = 'none';
-    page.style.transform = 'none';
-    page.style.transformOrigin = 'top left';
-    await new Promise(res => setTimeout(res, 80));
-
-    const canvas = await html2canvas(page, {
-      scale: 2,
-      useCORS: true,
-      allowTaint: false,
-      backgroundColor: null,
-      logging: false,
-      imageTimeout: 15000
-    });
-
-    const imgData = canvas.toDataURL('image/jpeg', 0.95);
-    const { jsPDF } = window.jspdf;
-
-    // Letter size — scale content to fit, no cropping
-    const pdfW = 215.9;
-    const pdfH = 279.4;
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
-    pdf.addImage(imgData, 'JPEG', 0, 0, 215.9, 279.4);
-
-    const title = (document.getElementById('f-title').value || 'yearbook').replace(/\s+/g, '-').toLowerCase();
-    const month = (document.getElementById('f-month').value || 'page').replace(/\s+/g, '-').toLowerCase();
+async function downloadPDF(){
+  const btn=document.getElementById('dl-btn');
+  btn.textContent='Rendering…';btn.disabled=true;
+  try{
+    const canvas=await capturePage();
+    const imgData=canvas.toDataURL('image/jpeg',0.95);
+    const{jsPDF}=window.jspdf;
+    const pdf=new jsPDF({orientation:'portrait',unit:'mm',format:'letter'});
+    pdf.addImage(imgData,'JPEG',0,0,215.9,279.4);
+    const title=(document.getElementById('f-title').value||'yearbook').replace(/\s+/g,'-').toLowerCase();
+    const month=(document.getElementById('f-month').value||'page').replace(/\s+/g,'-').toLowerCase();
     pdf.save(`${title}-${month}.pdf`);
-    restore();
-  } catch (err) {
-    restore();
-    alert('PDF generation failed.\n\nMake sure all images were added using the file upload buttons, not external URLs.\n\nError: ' + err.message);
-    console.error(err);
-  }
+  }catch(err){alert('PDF failed: '+err.message);console.error(err);}
+  btn.textContent='⬇ Download PDF';btn.disabled=false;
 }
 
-function v(id) { return (document.getElementById(id) || {}).value || ''; }
+function v(id){return(document.getElementById(id)||{}).value||'';}
 
-function render() {
-  const title = v('f-title') || 'Community Name';
-  const sub = v('f-sub');
-  const month = v('f-month') || 'Month 2025';
-  const desc = v('f-desc');
+function render(){
+  const title=v('f-title')||'Community Name';
+  const sub=v('f-sub'),month=v('f-month')||'Month 2025',desc=v('f-desc');
 
-  let top3 = '';
-  [[1, true], [2, false], [3, false]].forEach(([r, isGold]) => {
-    const n = v(`m${r}n`) || `Member ${r}`;
-    const p = v(`m${r}p`) || '0';
-    const img = v(`m${r}img`);
-    top3 += `<div class="card${isGold ? ' gold' : ''}">
-      <div class="rank-tag${isGold ? ' gold' : ''}">${isGold ? '🥇<span style="font-size:9px;display:block">CHAMPION</span>' : '#' + r}</div>
-      ${img ? `<img class="avatar${isGold ? ' gold-ring' : ''}" src="${img}"/>` : `<div class="avatar-fallback">?</div>`}
+  let top3='';
+  [[1,true],[2,false],[3,false]].forEach(([r,isGold])=>{
+    const n=v(`m${r}n`)||`Member ${r}`,p=v(`m${r}p`)||'0',img=v(`m${r}img`);
+    top3+=`<div class="card${isGold?' gold':''}">
+      <div class="rank-tag${isGold?' gold':''}">${isGold?'🥇<span style="font-size:7px;display:block">CHAMPION</span>':'#'+r}</div>
+      ${img?`<img class="avatar${isGold?' gold-ring':''}" src="${img}"/>`:`<div class="avatar-fallback">?</div>`}
       <div class="card-caption"><div class="mname">${n}</div><div class="mpts">${p} pts</div></div>
     </div>`;
   });
 
-  let top2 = '';
-  [4, 5].forEach(r => {
-    const n = v(`m${r}n`) || `Member ${r}`;
-    const p = v(`m${r}p`) || '0';
-    const img = v(`m${r}img`);
-    top2 += `<div class="card-sm">
+  let top2='';
+  [4,5].forEach(r=>{
+    const n=v(`m${r}n`)||`Member ${r}`,p=v(`m${r}p`)||'0',img=v(`m${r}img`);
+    top2+=`<div class="card-sm">
       <div class="rank-pill">${r}</div>
-      ${img ? `<img class="avatar-sm" src="${img}"/>` : `<div class="avatar-sm-fallback"></div>`}
+      ${img?`<img class="avatar-sm" src="${img}"/>`:`<div class="avatar-sm-fallback"></div>`}
       <div class="card-sm-caption"><div class="mname-sm">${n}</div><div class="mpts-sm">${p} pts</div></div>
     </div>`;
   });
 
-  const lbBanner = v('lb-banner');
-  const lb = lbBanner
-    ? `<div class="section-title">Leaderboard Snapshot</div><div class="lb-banner-wrap"><img class="lb-banner-img" src="${lbBanner}"/></div>`
-    : `<div class="section-title">Leaderboard Snapshot</div><div class="lb-placeholder">Upload leaderboard image</div>`;
+  const lbBanner=v('lb-banner');
+  const lb=lbBanner
+    ?`<div class="section-title">Leaderboard Snapshot</div><div class="lb-banner-wrap"><img class="lb-banner-img" src="${lbBanner}"/></div>`
+    :`<div class="section-title">Leaderboard Snapshot</div><div class="lb-placeholder">Upload leaderboard image</div>`;
 
-  let chips = '';
-  for (let i = 1; i <= 7; i++) {
-    const name = v('spot' + i + 'n');
-    const img = v('spot' + i + 'img');
-    if (name || img) chips += `<div class="spot-circle">
-      ${img ? `<img class="spot-img" src="${img}"/>` : '<div class="spot-img-fallback"></div>'}
-      <div class="spot-nameplate">${name || '—'}</div>
+  let chips='';
+  for(let i=1;i<=7;i++){
+    const name=v('spot'+i+'n'),img=v('spot'+i+'img');
+    if(name||img)chips+=`<div class="spot-circle">
+      ${img?`<img class="spot-img" src="${img}"/>`:'<div class="spot-img-fallback"></div>'}
+      <div class="spot-nameplate">${name||'—'}</div>
     </div>`;
   }
-  const spotlight = `<div class="section-title">7-Day Spotlight</div>` +
-    (chips ? `<div class="spotlight">${chips}</div>` : '<div class="spotlight-placeholder">7-day active members will appear here</div>');
+  const spotlight=`<div class="section-title">7-Day Spotlight</div>`+
+    (chips?`<div class="spotlight">${chips}</div>`:'<div class="spotlight-placeholder">7-day active members will appear here</div>');
 
-  const thanks = v('f-thanks') || 'A huge thank you to every member!';
-  const next = v('f-next') || 'Stay active — next month the leaderboard resets!';
+  const thanks=v('f-thanks')||'A huge thank you to every member!';
+  const next=v('f-next')||'Stay active — next month the leaderboard resets!';
 
-  const frameHTML = `<div class="page-frame">
+  const frameHTML=`<div class="page-frame">
     <div class="glow-left"></div><div class="glow-right"></div><div class="glow-top"></div><div class="glow-bottom"></div>
     <div class="corner tl"><svg viewBox="0 0 28 28" fill="none"><polyline points="28,4 4,4 4,28" stroke="#00c8ff" stroke-width="3.5" stroke-linecap="round"/></svg></div>
     <div class="corner tr"><svg viewBox="0 0 28 28" fill="none"><polyline points="28,4 4,4 4,28" stroke="#ff8c00" stroke-width="3.5" stroke-linecap="round"/></svg></div>
@@ -465,16 +427,16 @@ function render() {
     <div class="corner br"><svg viewBox="0 0 28 28" fill="none"><polyline points="28,4 4,4 4,28" stroke="#ff8c00" stroke-width="3.5" stroke-linecap="round"/></svg></div>
   </div>`;
 
-  document.getElementById('page').innerHTML = frameHTML + `
+  document.getElementById('page').innerHTML=frameHTML+`
     <div id="page-header">
       <div>
         <div class="brand-label">Skool Monthly Yearbook</div>
         <div class="community-name">${title}</div>
-        ${sub ? `<div class="sub">${sub}</div>` : ''}
+        ${sub?`<div class="sub">${sub}</div>`:''}
       </div>
       <div class="month-badge">${month}</div>
     </div>
-    ${desc ? `<div class="desc">${desc}</div>` : ''}
+    ${desc?`<div class="desc">${desc}</div>`:''}
     <div class="section-title">Top 5 Members — 30 Day</div>
     <div class="top3">${top3}</div>
     <div class="top2">${top2}</div>
@@ -485,7 +447,6 @@ function render() {
       <div class="footer-box"><h4>What's Next</h4><p>${next}</p></div>
     </div>
   `;
-
   scalePreview();
 }
 

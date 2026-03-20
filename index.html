@@ -366,15 +366,7 @@ async function downloadPDF() {
     const pdfW = 215.9;
     const pdfH = 279.4;
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'letter' });
-    const imgRatio = canvas.width / canvas.height;
-    const pageRatio = pdfW / pdfH;
-    let drawW, drawH, offsetX = 0, offsetY = 0;
-    if (imgRatio > pageRatio) {
-      drawW = pdfW; drawH = pdfW / imgRatio; offsetY = (pdfH - drawH) / 2;
-    } else {
-      drawH = pdfH; drawW = pdfH * imgRatio; offsetX = (pdfW - drawW) / 2;
-    }
-    pdf.addImage(imgData, 'JPEG', offsetX, offsetY, drawW, drawH);
+    pdf.addImage(imgData, 'JPEG', 0, 0, 215.9, 279.4);
 
     const title = (document.getElementById('f-title').value || 'yearbook').replace(/\s+/g, '-').toLowerCase();
     const month = (document.getElementById('f-month').value || 'page').replace(/\s+/g, '-').toLowerCase();
